@@ -179,33 +179,33 @@ export const CardPresentation = ({
       }}
     >
       {/* Card inner content */}
-      <div className="absolute inset-1 bg-white rounded-md p-1 relative">
+      <div className="absolute inset-1 bg-white rounded-md p-1 flex flex-col justify-between">
         {/* Top left corner */}
         <div
-          className={`absolute top-0 left-0 flex flex-col items-start ${isRed ? "text-red-600" : "text-gray-900"} z-10`}
+          className={`flex flex-col items-start ${isRed ? "text-red-600" : "text-gray-900"}`}
         >
-          <span className="font-bold leading-none text-xs">{card.rank}</span>
-          <SuitIcon suit={card.suit} className="w-2 h-2 mt-0.5" filled />
+          <span className="font-bold leading-none text-sm">{card.rank}</span>
+          <SuitIcon suit={card.suit} className="w-3 h-3 mt-0.5" filled />
         </div>
 
         {/* Center suit pattern */}
         <div
-          className={`absolute inset-2 ${isRed ? "text-red-600" : "text-gray-900"}`}
+          className={`absolute inset-0 ${isRed ? "text-red-600" : "text-gray-900"}`}
         >
           {getSuitPattern(card.suit, card.rank)}
         </div>
 
         {/* Bottom right corner (rotated) */}
         <div
-          className={`absolute bottom-0 right-0 flex flex-col items-end rotate-180 ${isRed ? "text-red-600" : "text-gray-900"} z-10`}
+          className={`flex flex-col items-end rotate-180 ${isRed ? "text-red-600" : "text-gray-900"}`}
         >
-          <span className="font-bold leading-none text-xs">{card.rank}</span>
-          <SuitIcon suit={card.suit} className="w-2 h-2 mt-0.5" filled />
+          <span className="font-bold leading-none text-sm">{card.rank}</span>
+          <SuitIcon suit={card.suit} className="w-3 h-3 mt-0.5" filled />
         </div>
 
         {/* Face card decorative elements */}
         {isFaceCard && (
-          <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="absolute inset-0 flex items-center justify-center">
             <div
               className={`text-xs font-semibold opacity-80 ${isRed ? "text-red-600" : "text-gray-900"}`}
             >
