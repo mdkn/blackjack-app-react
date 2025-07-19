@@ -17,8 +17,8 @@ interface UseCardPropsReturn {
 
 const SIZE_CLASSES = {
   small: "w-14 h-20 text-xs",
-  medium: "w-18 h-26 text-sm",
-  large: "w-24 h-34 text-base",
+  medium: "w-16 h-24 text-sm",
+  large: "w-20 h-32 text-base",
 };
 
 export const useCardProps = ({

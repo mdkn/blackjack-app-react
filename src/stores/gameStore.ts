@@ -58,7 +58,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       }));
 
       // Automatically deal initial cards after betting
-      setTimeout(() => get().dealInitialCards(), 100);
+      get().dealInitialCards();
     }
   },
 

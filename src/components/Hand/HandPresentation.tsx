@@ -42,7 +42,16 @@ export const HandPresentation = ({
         animate="visible"
       >
         {cards.length === 0 ? (
-          <Card size={cardSize} />
+          <div className="flex space-x-2">
+            {[1, 2].map(i => (
+              <div
+                key={i}
+                className="w-16 h-24 border-2 border-dashed border-yellow-400 rounded-lg flex items-center justify-center bg-gray-700 animate-pulse"
+              >
+                <span className="text-yellow-400 text-xs">...</span>
+              </div>
+            ))}
+          </div>
         ) : (
           cards.map((card, index) => {
             const shouldHide = shouldHideCard(index, cards.length);
@@ -52,11 +61,7 @@ export const HandPresentation = ({
                 key={`${card.suit}-${card.rank}-${index}`}
                 variants={staggerItem}
               >
-                <Card
-                  card={shouldHide ? undefined : card}
-                  faceDown={shouldHide}
-                  size={cardSize}
-                />
+                <Card card={card} faceDown={shouldHide} size={cardSize} />
               </motion.div>
             );
           })
