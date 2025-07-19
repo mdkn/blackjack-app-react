@@ -1,7 +1,7 @@
 {
   "productName": "Blackjack Game",
   "version": "0.0.0",
-  "identifier": "com.blackjack.app",
+  "identifier": "com.blackjack.game",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
@@ -33,9 +33,5 @@
       "icons/icon.ico"
     ]
   },
-  "plugins": {
-    "shell": {
-      "open": true
-    }
-  }
+  "plugins": {}
 }
