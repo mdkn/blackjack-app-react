@@ -11,7 +11,7 @@ export interface UseGamePropsReturn {
 }
 
 export const useGameProps = (): UseGamePropsReturn => {
-  const { player, dealer, phase, hit, stand, resetRound, newGame, placeBet } =
+  const { player, dealer, phase, hit, stand, resetRound, newGame } =
     useGameStore();
 
   const { settings } = useSettingsStore();
@@ -40,15 +40,9 @@ export const useGameProps = (): UseGamePropsReturn => {
 
   // Betting props with sound effect wrapper
   const getBettingProps = () => ({
-    playerChips: player.chips,
-    currentBet: player.currentBet,
-    onPlaceBet: (amount: number) => {
-      playSound("chipPlace");
-      placeBet(amount);
-    },
     presetBets: settings.betIncrements,
-    defaultBet: settings.defaultBet,
-    maxBet: settings.maxBet,
+    disabled: false,
+    className: "",
   });
 
   // Game Controls props with sound effect wrappers

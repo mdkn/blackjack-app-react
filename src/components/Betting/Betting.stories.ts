@@ -17,14 +17,14 @@ const meta: Meta<typeof Betting> = {
   },
   tags: ["autodocs"],
   argTypes: {
-    playerChips: {
-      control: { type: "number", min: 0, max: 10000, step: 5 },
-    },
-    currentBet: {
-      control: { type: "number", min: 0, max: 500, step: 5 },
-    },
     disabled: {
       control: { type: "boolean" },
+    },
+    presetBets: {
+      control: { type: "object" },
+    },
+    className: {
+      control: { type: "text" },
     },
   },
 };
@@ -35,99 +35,76 @@ type Story = StoryObj<typeof meta>;
 // Default betting interface
 export const Default: Story = {
   args: {
-    playerChips: 1000,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
+    disabled: false,
+    presetBets: [5, 10, 25, 50, 100],
+    className: "",
   },
 };
 
-// Player with low chips
-export const LowChips: Story = {
-  args: {
-    playerChips: 25,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// Player with very high chips
-export const HighChips: Story = {
-  args: {
-    playerChips: 5000,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// Minimal chips (barely enough to play)
-export const MinimalChips: Story = {
-  args: {
-    playerChips: 10,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// No chips (broke player)
-export const NoChips: Story = {
-  args: {
-    playerChips: 0,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// With current bet placed
-export const WithCurrentBet: Story = {
-  args: {
-    playerChips: 500,
-    currentBet: 50,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// Large current bet
-export const LargeCurrentBet: Story = {
-  args: {
-    playerChips: 200,
-    currentBet: 100,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
-  },
-};
-
-// Disabled state (during game)
+// Disabled state
 export const Disabled: Story = {
   args: {
-    playerChips: 1000,
-    currentBet: 25,
     disabled: true,
-    onPlaceBet: (amount: number) => {
-      console.log(`Bet placed: $${amount}`);
-    },
+    presetBets: [5, 10, 25, 50, 100],
+    className: "",
   },
 };
 
-// Interactive example with action logging
-export const Interactive: Story = {
+// Custom preset bets
+export const CustomPresetBets: Story = {
   args: {
-    playerChips: 1000,
-    currentBet: 0,
-    onPlaceBet: (amount: number) => {
-      alert(`You placed a bet of $${amount}!`);
-    },
+    disabled: false,
+    presetBets: [10, 25, 50, 100, 200],
+    className: "",
   },
+};
+
+// Small preset bets
+export const SmallPresetBets: Story = {
+  args: {
+    disabled: false,
+    presetBets: [1, 2, 5, 10, 25],
+    className: "",
+  },
+};
+
+// High stakes preset bets
+export const HighStakesPresetBets: Story = {
+  args: {
+    disabled: false,
+    presetBets: [50, 100, 250, 500, 1000],
+    className: "",
+  },
+};
+
+// Limited options
+export const LimitedOptions: Story = {
+  args: {
+    disabled: false,
+    presetBets: [5, 10, 25],
+    className: "",
+  },
+};
+
+// Many options
+export const ManyOptions: Story = {
+  args: {
+    disabled: false,
+    presetBets: [1, 5, 10, 15, 20, 25, 50, 75, 100],
+    className: "",
+  },
+};
+
+// With custom styling
+export const WithCustomStyling: Story = {
+  args: {
+    disabled: false,
+    presetBets: [5, 10, 25, 50, 100],
+    className: "border-2 border-yellow-400",
+  },
+};
+
+// Minimal configuration
+export const Minimal: Story = {
+  args: {},
 };

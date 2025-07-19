@@ -15,6 +15,7 @@ import {
 interface GameStore extends GameState {
   // Actions
   placeBet: (amount: number) => void;
+  setCustomBet: (amount: number) => void;
   dealInitialCards: () => void;
   hit: () => void;
   stand: () => void;
@@ -43,6 +44,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   dealer: initialDealer,
   deck: initialDeck,
   gameHistory: [],
+  minBet: 5,
+  customBet: 25,
 
   // Actions
   placeBet: (amount: number) => {
@@ -60,6 +63,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
       // Automatically deal initial cards after betting
       get().dealInitialCards();
     }
+  },
+
+  setCustomBet: (amount: number) => {
+    set({ customBet: amount });
   },
 
   dealInitialCards: () => {

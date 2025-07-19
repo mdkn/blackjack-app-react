@@ -3,6 +3,7 @@ export { useAnimations } from "./useAnimations";
 export { useGameProps } from "./useGameProps";
 export { useAppProps } from "./useAppProps";
 export { useBettingContainer } from "./useBettingContainer";
+export { useBettingProps } from "./useBettingProps";
 export { useSettingsContainer } from "./useSettingsContainer";
 export { useHandProps } from "./useHandProps";
 export { useGameControlsProps } from "./useGameControlsProps";

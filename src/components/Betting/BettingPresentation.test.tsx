@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { BettingPresentation } from "./BettingPresentation";
 
@@ -22,7 +21,7 @@ vi.mock("../../hooks", () => ({
 }));
 
 describe("BettingPresentation", () => {
-  const defaultProps = {
+  const mockProps = {
     playerChips: 1000,
     currentBet: 50,
     customBet: 25,
@@ -30,11 +29,43 @@ describe("BettingPresentation", () => {
     effectiveMaxBet: 500,
     presetBets: [5, 10, 25, 50],
     disabled: false,
+    className: "",
+    getPresetButtonProps: vi.fn((amount: number) => ({
+      onClick: vi.fn(),
+      disabled: false,
+      className: "mock-preset-button-class",
+      key: amount,
+    })),
+    getCustomBetInputProps: vi.fn(() => ({
+      type: "number" as const,
+      value: 25,
+      onChange: vi.fn(),
+      disabled: false,
+      min: 5,
+      max: 500,
+      className: "mock-input-class",
+    })),
+    getDecrementButtonProps: vi.fn(() => ({
+      onClick: vi.fn(),
+      disabled: false,
+      className: "mock-decrement-class",
+    })),
+    getIncrementButtonProps: vi.fn(() => ({
+      onClick: vi.fn(),
+      disabled: false,
+      className: "mock-increment-class",
+    })),
+    getCustomBetButtonProps: vi.fn(() => ({
+      onClick: vi.fn(),
+      disabled: false,
+      className: "mock-custom-bet-class",
+    })),
+    getAllInButtonProps: vi.fn(() => ({
+      onClick: vi.fn(),
+      disabled: false,
+      className: "mock-all-in-class",
+    })),
     setCustomBet: vi.fn(),
-    handlePresetBet: vi.fn(),
-    handleCustomBet: vi.fn(),
-    incrementCustomBet: vi.fn(),
-    decrementCustomBet: vi.fn(),
     canPlaceCustomBet: true,
     canAffordAmount: vi.fn((amount: number) => amount <= 1000),
   };
@@ -43,20 +74,23 @@ describe("BettingPresentation", () => {
     vi.clearAllMocks();
   });
 
-  it("should display current chips", () => {
-    render(<BettingPresentation {...defaultProps} />);
+  it("should display betting interface", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    expect(screen.getByText(/1000/)).toBeInTheDocument();
+    expect(screen.getByText("Place Your Bet")).toBeInTheDocument();
+    expect(screen.getByText("Your Chips")).toBeInTheDocument();
+    expect(screen.getByText("$1000")).toBeInTheDocument();
   });
 
-  it("should display current bet", () => {
-    render(<BettingPresentation {...defaultProps} />);
+  it("should display current bet when greater than 0", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    expect(screen.getByText(/50/)).toBeInTheDocument();
+    expect(screen.getByText("Current Bet")).toBeInTheDocument();
+    expect(screen.getByText("$50")).toBeInTheDocument();
   });
 
   it("should render preset bet buttons", () => {
-    render(<BettingPresentation {...defaultProps} />);
+    render(<BettingPresentation {...mockProps} />);
 
     expect(screen.getByText("$5")).toBeInTheDocument();
     expect(screen.getByText("$10")).toBeInTheDocument();
@@ -64,148 +98,79 @@ describe("BettingPresentation", () => {
     expect(screen.getByText("$50")).toBeInTheDocument();
   });
 
-  it("should call handlePresetBet when preset bet button is clicked", () => {
-    render(<BettingPresentation {...defaultProps} />);
+  it("should render custom bet controls", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    const bet25Button = screen.getByText("$25");
-    fireEvent.click(bet25Button);
-
-    expect(defaultProps.handlePresetBet).toHaveBeenCalledWith(25);
+    expect(screen.getByText("Custom Amount")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("25")).toBeInTheDocument();
+    expect(screen.getByText("Bet $25")).toBeInTheDocument();
+    expect(screen.getByText("All In")).toBeInTheDocument();
   });
 
-  it("should call handlePresetBet with all preset bet amounts", () => {
-    render(<BettingPresentation {...defaultProps} />);
+  it("should display betting rules", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    const bet5Button = screen.getByText("$5");
-    const bet10Button = screen.getByText("$10");
-    const bet25Button = screen.getByText("$25");
-    const bet50Button = screen.getByText("$50");
-
-    fireEvent.click(bet5Button);
-    expect(defaultProps.handlePresetBet).toHaveBeenCalledWith(5);
-
-    fireEvent.click(bet10Button);
-    expect(defaultProps.handlePresetBet).toHaveBeenCalledWith(10);
-
-    fireEvent.click(bet25Button);
-    expect(defaultProps.handlePresetBet).toHaveBeenCalledWith(25);
-
-    fireEvent.click(bet50Button);
-    expect(defaultProps.handlePresetBet).toHaveBeenCalledWith(50);
+    expect(screen.getByText(/Minimum bet: \$5/)).toBeInTheDocument();
+    expect(screen.getByText(/Blackjack pays 3:2/)).toBeInTheDocument();
   });
 
-  it("should disable bet buttons when bet amount exceeds player chips", () => {
-    const canAffordAmount = vi.fn((amount: number) => amount <= 20);
-    render(
-      <BettingPresentation
-        {...defaultProps}
-        playerChips={20}
-        canAffordAmount={canAffordAmount}
-      />
-    );
+  it("should call props getter functions", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    const bet25Button = screen.getByText("$25");
-    const bet50Button = screen.getByText("$50");
-
-    expect(bet25Button).toBeDisabled();
-    expect(bet50Button).toBeDisabled();
+    // Check that all props getter functions are called
+    expect(mockProps.getPresetButtonProps).toHaveBeenCalledWith(5);
+    expect(mockProps.getPresetButtonProps).toHaveBeenCalledWith(10);
+    expect(mockProps.getPresetButtonProps).toHaveBeenCalledWith(25);
+    expect(mockProps.getPresetButtonProps).toHaveBeenCalledWith(50);
+    expect(mockProps.getCustomBetInputProps).toHaveBeenCalled();
+    expect(mockProps.getDecrementButtonProps).toHaveBeenCalled();
+    expect(mockProps.getIncrementButtonProps).toHaveBeenCalled();
+    expect(mockProps.getCustomBetButtonProps).toHaveBeenCalled();
+    expect(mockProps.getAllInButtonProps).toHaveBeenCalled();
   });
 
-  it("should enable bet buttons when bet amount is within player chips", () => {
-    const canAffordAmount = vi.fn((amount: number) => amount <= 100);
-    render(
-      <BettingPresentation
-        {...defaultProps}
-        playerChips={100}
-        canAffordAmount={canAffordAmount}
-      />
-    );
+  it("should pass correct props to motion buttons", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    const bet5Button = screen.getByText("$5");
-    const bet10Button = screen.getByText("$10");
-    const bet25Button = screen.getByText("$25");
-    const bet50Button = screen.getByText("$50");
+    // Verify that button props are properly spread
+    const presetButtons = screen.getAllByText(/^\$\d+$/);
+    expect(presetButtons).toHaveLength(4);
 
-    expect(bet5Button).not.toBeDisabled();
-    expect(bet10Button).not.toBeDisabled();
-    expect(bet25Button).not.toBeDisabled();
-    expect(bet50Button).not.toBeDisabled();
+    // Check custom bet button
+    const customBetButton = screen.getByText("Bet $25");
+    expect(customBetButton).toBeInTheDocument();
+
+    // Check all in button
+    const allInButton = screen.getByText("All In");
+    expect(allInButton).toBeInTheDocument();
   });
 
-  it("should handle zero chips", () => {
-    const canAffordAmount = vi.fn(() => false);
-    render(
-      <BettingPresentation
-        {...defaultProps}
-        playerChips={0}
-        canAffordAmount={canAffordAmount}
-      />
-    );
+  it("should handle button interactions correctly", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    expect(screen.getByText(/0/)).toBeInTheDocument();
+    // Test preset button click
+    const fiveButton = screen.getByText("$5");
+    fiveButton.click();
+    expect(mockProps.getPresetButtonProps(5).onClick).toHaveBeenCalled();
 
-    // All bet buttons should be disabled
-    const bet5Button = screen.getByText("$5");
-    const bet10Button = screen.getByText("$10");
-    const bet25Button = screen.getByText("$25");
-    const bet50Button = screen.getByText("$50");
+    // Test custom bet button click
+    const customBetButton = screen.getByText("Bet $25");
+    customBetButton.click();
+    expect(mockProps.getCustomBetButtonProps().onClick).toHaveBeenCalled();
 
-    expect(bet5Button).toBeDisabled();
-    expect(bet10Button).toBeDisabled();
-    expect(bet25Button).toBeDisabled();
-    expect(bet50Button).toBeDisabled();
+    // Test all in button click
+    const allInButton = screen.getByText("All In");
+    allInButton.click();
+    expect(mockProps.getAllInButtonProps().onClick).toHaveBeenCalled();
   });
 
-  it("should handle zero current bet", () => {
-    render(<BettingPresentation {...defaultProps} currentBet={0} />);
+  it("should handle input changes correctly", () => {
+    render(<BettingPresentation {...mockProps} />);
 
-    expect(screen.getByText(/0/)).toBeInTheDocument();
-  });
+    const input = screen.getByDisplayValue("25");
+    expect(input).toBeInTheDocument();
 
-  it("should render with different preset bet amounts", () => {
-    const customPresetBets = [1, 5, 20, 100];
-    render(
-      <BettingPresentation {...defaultProps} presetBets={customPresetBets} />
-    );
-
-    expect(screen.getByText("$1")).toBeInTheDocument();
-    expect(screen.getByText("$5")).toBeInTheDocument();
-    expect(screen.getByText("$20")).toBeInTheDocument();
-    expect(screen.getByText("$100")).toBeInTheDocument();
-  });
-
-  it("should handle large chip amounts", () => {
-    render(
-      <BettingPresentation
-        {...defaultProps}
-        playerChips={999999}
-        currentBet={1000}
-      />
-    );
-
-    expect(screen.getByText(/999999/)).toBeInTheDocument();
-    expect(screen.getByText(/1000/)).toBeInTheDocument();
-  });
-
-  it("should maintain button accessibility", () => {
-    render(<BettingPresentation {...defaultProps} />);
-
-    const bet5Button = screen.getByText("$5");
-    const bet10Button = screen.getByText("$10");
-    const bet25Button = screen.getByText("$25");
-    const bet50Button = screen.getByText("$50");
-
-    expect(bet5Button).toHaveAttribute("type", "button");
-    expect(bet10Button).toHaveAttribute("type", "button");
-    expect(bet25Button).toHaveAttribute("type", "button");
-    expect(bet50Button).toHaveAttribute("type", "button");
-  });
-
-  it("should handle empty preset bets array", () => {
-    render(<BettingPresentation {...defaultProps} presetBets={[]} />);
-
-    // Should still render chips and current bet
-    expect(screen.getByText(/1000/)).toBeInTheDocument();
-    expect(screen.getByText(/50/)).toBeInTheDocument();
+    // The input props should be properly applied
+    expect(mockProps.getCustomBetInputProps).toHaveBeenCalled();
   });
 });

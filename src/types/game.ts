@@ -39,6 +39,8 @@ export interface GameState {
   dealer: Dealer;
   deck: Deck;
   gameHistory: GameResult[];
+  minBet: number;
+  customBet: number;
 }
 
 export interface GameResult {
