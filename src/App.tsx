@@ -8,6 +8,7 @@ import {
   Settings as SettingsIcon,
 } from "lucide-react";
 import { useGameStore, useSettingsStore } from "./stores";
+import { useSound } from "./hooks";
 import {
   Hand,
   Betting,
@@ -33,6 +34,7 @@ function App() {
   } = useGameStore();
 
   const { settings } = useSettingsStore();
+  const { playSound } = useSound();
 
   const [currentView, setCurrentView] = useState<AppView>("game");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -40,6 +42,27 @@ function App() {
 
   const playerCanHit =
     phase === "player-turn" && !player.hand.isBust && player.hand.value < 21;
+
+  // Wrapper functions that include sound effects
+  const handlePlaceBet = (amount: number) => {
+    playSound("chipPlace");
+    placeBet(amount);
+  };
+
+  const handleHit = () => {
+    playSound("cardDeal");
+    hit();
+  };
+
+  const handleStand = () => {
+    playSound("cardFlip");
+    stand();
+  };
+
+  const handleNewRound = () => {
+    playSound("chipPlace");
+    resetRound();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-800 to-green-900 p-4">
@@ -154,7 +177,7 @@ function App() {
                 <Betting
                   playerChips={player.chips}
                   currentBet={player.currentBet}
-                  onPlaceBet={placeBet}
+                  onPlaceBet={handlePlaceBet}
                   presetBets={settings.betIncrements}
                   defaultBet={settings.defaultBet}
                   maxBet={settings.maxBet}
@@ -164,9 +187,9 @@ function App() {
               {/* Game Controls */}
               <GameControls
                 phase={phase}
-                onHit={hit}
-                onStand={stand}
-                onNewRound={resetRound}
+                onHit={handleHit}
+                onStand={handleStand}
+                onNewRound={handleNewRound}
                 onNewGame={newGame}
                 playerCanHit={playerCanHit}
               />

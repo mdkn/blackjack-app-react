@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GameStats } from "./GameStats";
 import { createEmptyHand, addCardToHand } from "../../utils";
+import { Suit, Rank } from "../../types";
 
 const meta: Meta<typeof GameStats> = {
   title: "Game/GameStats",
@@ -24,8 +25,8 @@ type Story = StoryObj<typeof meta>;
 
 // Sample game history data for different scenarios
 const createGameResult = (
-  playerCards: Array<{ suit: string; rank: string }>,
-  dealerCards: Array<{ suit: string; rank: string }>,
+  playerCards: Array<{ suit: Suit; rank: Rank }>,
+  dealerCards: Array<{ suit: Suit; rank: Rank }>,
   result: "player-wins" | "dealer-wins" | "push",
   winnings: number,
   minutesAgo: number = 0

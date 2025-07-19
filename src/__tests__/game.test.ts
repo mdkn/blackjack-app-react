@@ -12,7 +12,6 @@ describe("Game utilities", () => {
   const aceSpades: Card = { suit: "spades", rank: "A" };
   const kingHearts: Card = { suit: "hearts", rank: "K" };
   const fiveClubs: Card = { suit: "clubs", rank: "5" };
-  const sixDiamonds: Card = { suit: "diamonds", rank: "6" };
 
   test("determineWinner handles player bust", () => {
     const playerBust = addCardToHand(
@@ -22,7 +21,7 @@ describe("Game utilities", () => {
     const dealerHand = addCardToHand(createEmptyHand(), kingHearts);
 
     const result = determineWinner(playerBust, dealerHand);
-    expect(result.result).toBe("lose");
+    expect(result.result).toBe("dealer-wins");
     expect(result.message).toBe("Player busted");
   });
 
@@ -37,7 +36,7 @@ describe("Game utilities", () => {
     );
 
     const result = determineWinner(playerHand, dealerBust);
-    expect(result.result).toBe("win");
+    expect(result.result).toBe("player-wins");
     expect(result.message).toBe("Dealer busted");
   });
 
@@ -61,18 +60,18 @@ describe("Game utilities", () => {
 
     // Player blackjack only
     result = determineWinner(playerBlackjack, regularHand);
-    expect(result.result).toBe("win");
+    expect(result.result).toBe("player-wins");
     expect(result.message).toBe("Blackjack!");
 
     // Dealer blackjack only
     result = determineWinner(regularHand, dealerBlackjack);
-    expect(result.result).toBe("lose");
+    expect(result.result).toBe("dealer-wins");
   });
 
   test("calculateWinnings handles different scenarios", () => {
-    expect(calculateWinnings(100, "win", false)).toBe(100); // Regular win
-    expect(calculateWinnings(100, "win", true)).toBe(150); // Blackjack win (3:2)
-    expect(calculateWinnings(100, "lose")).toBe(-100); // Loss
+    expect(calculateWinnings(100, "player-wins", false)).toBe(100); // Regular win
+    expect(calculateWinnings(100, "player-wins", true)).toBe(150); // Blackjack win (3:2)
+    expect(calculateWinnings(100, "dealer-wins")).toBe(-100); // Loss
     expect(calculateWinnings(100, "push")).toBe(0); // Push
   });
 

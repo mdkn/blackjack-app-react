@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Card as CardType } from "../../types";
 import { SuitIcon } from "./SuitIcons";
@@ -36,7 +37,7 @@ const getSuitPattern = (suit: CardType["suit"], rank: CardType["rank"]) => {
   }
 
   // Number card patterns
-  const suitElements = [];
+  const suitElements: React.ReactElement[] = [];
   const num = parseInt(rank) || 0;
 
   if (num >= 2 && num <= 10) {
