@@ -228,10 +228,66 @@ src/
 5. **Advanced Game Features** - Insurance, surrender, side bets
 6. **Theme System** - Dark/light modes, custom color schemes
 
-**Current Status: ✅ PRODUCTION READY**
+## Architectural Pattern Recommendations
+
+### Recommended Pattern Evolution: Container/Presentational → Props Getter Pattern
+
+**Evolution Path for React Components:**
+
+1. **Container/Presentational Pattern** (Previous approach)
+   - Separate container and presentational components
+   - Good separation of concerns but can become verbose
+   - Suitable for simple components with basic logic
+
+2. **Props Getter Pattern** (Current recommended approach - Kent C. Dodds pattern)
+   - Custom hooks extract business logic and return computed props
+   - Presentation components receive all props and focus purely on UI rendering
+   - Container components orchestrate logic + presentation
+   - Better code reusability, testability, and cleaner architecture
+   - Preferred for complex components with substantial business logic
+
+### Props Getter Pattern Implementation Structure
+
+```typescript
+// 1. Custom Hook (Business Logic Extraction)
+export const useComponentProps = (params) => {
+  // All business logic, calculations, state management
+  // Return computed props for presentation layer
+  return { computedProp1, computedProp2, handlers };
+};
+
+// 2. Presentation Component (Pure UI Rendering)
+export const ComponentPresentation = (props) => {
+  // Pure UI rendering only - no business logic
+  // Receives all computed props from hook
+  return <div>...</div>;
+};
+
+// 3. Container Component (Orchestration)
+export const Component = (props) => {
+  const logic = useComponentProps(props);
+  return <ComponentPresentation {...props} {...logic} />;
+};
+```
+
+### Current Props Getter Pattern Implementation Status
+
+- **Coverage**: 64% (7/11 components)
+- **✅ Completed**: Betting, Settings, Hand, GameControls, Card, GamePage, App
+- **🔄 In Progress**: GameHistory
+- **⏳ Remaining**: GameStats, StatsPage
+
+### Pattern Selection Guidelines
+
+- **Use Props Getter Pattern for**: Complex components with substantial business logic, conditional rendering, state management
+- **Use Container/Presentational for**: Simple components with minimal logic
+- **Priority**: Apply Props Getter Pattern to high-complexity, frequently-used components first
+
+**Current Status: ✅ PRODUCTION READY + ARCHITECTURAL MODERNIZATION IN PROGRESS**
 
 - All core functionality implemented and tested
 - Sound effects and animations working smoothly
 - Settings system with persistent user preferences
 - Clean TypeScript codebase with full type safety
 - Responsive design with accessibility considerations
+- Modern Props Getter Pattern implementation for improved maintainability
