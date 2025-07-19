@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Card } from "../Card";
 import { Hand as HandType } from "../../types";
-import { getHandDisplayValue } from "../../utils";
+import { getHandDisplayValue } from "../../lib/game-logic";
 import { useAnimations } from "../../hooks";
 
 interface HandProps {

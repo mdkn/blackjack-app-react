@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Hand } from "./Hand";
-import { createEmptyHand, addCardToHand } from "../../utils";
+import { createEmptyHand, addCardToHand } from "../../lib/game-logic";
 
 const meta: Meta<typeof Hand> = {
   title: "Game/Hand",

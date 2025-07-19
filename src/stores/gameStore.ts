@@ -10,7 +10,7 @@ import {
   determineWinner,
   calculateWinnings,
   updatePlayerChips,
-} from "../utils";
+} from "../lib/game-logic";
 
 interface GameStore extends GameState {
   // Actions

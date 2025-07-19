@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSettingsStore } from "../stores";
-import { soundManager, SoundEffect } from "../utils/sounds";
+import { soundManager, SoundEffect } from "../lib/sounds";
 
 export interface UseSoundReturn {
   playSound: (effect: SoundEffect, volume?: number) => Promise<void>;

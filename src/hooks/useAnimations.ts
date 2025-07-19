@@ -11,7 +11,7 @@ import {
   createChipStackVariants,
   createCardFlipVariants,
   AnimationConfig,
-} from "../utils/animations";
+} from "../lib/animations";
 
 export interface UseAnimationsReturn {
   config: AnimationConfig;

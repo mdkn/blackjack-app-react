@@ -6,8 +6,8 @@ import {
   shouldDealerHit,
   isSoftHand,
   getHandDisplayValue,
-} from "../utils/hand";
-import { Card } from "../types";
+} from "./hand";
+import { Card } from "../../types";
 
 describe("Hand utilities", () => {
   const aceSpades: Card = { suit: "spades", rank: "A" };

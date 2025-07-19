@@ -1,10 +1,5 @@
-import {
-  createDeck,
-  dealCard,
-  shouldReshuffle,
-  shuffleDeck,
-} from "../utils/deck";
-import { SUITS, RANKS } from "../types";
+import { createDeck, dealCard, shouldReshuffle, shuffleDeck } from "./deck";
+import { SUITS, RANKS } from "../../types";
 
 describe("Deck utilities", () => {
   test("createDeck creates a full deck of 52 cards", () => {
@@ -15,8 +10,8 @@ describe("Deck utilities", () => {
 
   test("deck contains all suits and ranks", () => {
     const deck = createDeck();
-    const suits = new Set(deck.cards.map(card => card.suit));
-    const ranks = new Set(deck.cards.map(card => card.rank));
+    const suits = new Set(deck.cards.map((card: any) => card.suit));
+    const ranks = new Set(deck.cards.map((card: any) => card.rank));
 
     expect(suits.size).toBe(SUITS.length);
     expect(ranks.size).toBe(RANKS.length);

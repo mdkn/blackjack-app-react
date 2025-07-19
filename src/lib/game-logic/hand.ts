@@ -1,4 +1,4 @@
-import { Hand, Card, RANK_VALUES } from "../types";
+import { Hand, Card, RANK_VALUES } from "../../types";
 
 export function createEmptyHand(): Hand {
   return {

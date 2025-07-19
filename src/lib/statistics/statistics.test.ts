@@ -4,9 +4,9 @@ import {
   formatCurrency,
   formatPercentage,
   getStreakText,
-} from "../utils/statistics";
-import { createEmptyHand, addCardToHand } from "../utils";
-import { GameResult } from "../types";
+} from "./statistics";
+import { createEmptyHand, addCardToHand } from "../game-logic";
+import { GameResult } from "../../types";
 
 // Helper function to create a mock game result
 const createMockGameResult = (

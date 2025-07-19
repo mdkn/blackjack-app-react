@@ -4,9 +4,9 @@ import {
   createGameResult,
   canPlayerAffordBet,
   updatePlayerChips,
-} from "../utils/game";
-import { createEmptyHand, addCardToHand } from "../utils/hand";
-import { Player, Card } from "../types";
+} from "./game";
+import { createEmptyHand, addCardToHand } from "./hand";
+import { Player, Card } from "../../types";
 
 describe("Game utilities", () => {
   const aceSpades: Card = { suit: "spades", rank: "A" };
@@ -115,7 +115,7 @@ describe("Game utilities", () => {
 
     const result = createGameResult(playerHand, dealerHand, 100);
 
-    expect(result.result).toBe("win");
+    expect(result.result).toBe("player-wins");
     expect(result.winnings).toBe(150); // Blackjack win
     expect(result.timestamp).toBeInstanceOf(Date);
     expect(result.playerHand).toEqual(playerHand);

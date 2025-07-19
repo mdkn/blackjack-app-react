@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GameHistory } from "./GameHistory";
-import { createEmptyHand, addCardToHand } from "../../utils";
+import { createEmptyHand, addCardToHand } from "../../lib/game-logic";
 
 const meta: Meta<typeof GameHistory> = {
   title: "Game/GameHistory",

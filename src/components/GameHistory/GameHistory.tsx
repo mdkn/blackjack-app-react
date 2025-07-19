@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { GameResult } from "../../types";
-import { getHandDisplayValue } from "../../utils";
+import { getHandDisplayValue } from "../../lib/game-logic";
 
 interface GameHistoryProps {
   history: GameResult[];

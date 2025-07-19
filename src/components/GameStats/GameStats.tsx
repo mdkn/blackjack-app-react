@@ -17,7 +17,7 @@ import {
   formatPercentage,
   getStreakText,
   GameStatistics,
-} from "../../utils";
+} from "../../lib/statistics";
 
 interface GameStatsProps {
   history: GameResult[];

@@ -1,4 +1,4 @@
-import { Hand, Player, GameResult } from "../types";
+import { Hand, Player, GameResult } from "../../types";
 
 export function determineWinner(
   playerHand: Hand,
