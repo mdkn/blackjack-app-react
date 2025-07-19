@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Card as CardType } from "../../types";
 import { SuitIcon } from "./SuitIcons";
+import { useAnimations } from "../../hooks";
 
 interface CardProps {
   card?: CardType;
@@ -151,17 +152,18 @@ export const Card = ({
   onClick,
 }: CardProps) => {
   const isRed = card && (card.suit === "hearts" || card.suit === "diamonds");
+  const { cardDeal, cardFlip } = useAnimations();
 
   if (faceDown) {
     return (
       <motion.div
         className={`${sizeClasses[size]} ${className} relative overflow-hidden cursor-pointer`}
+        variants={cardFlip}
+        initial="faceDown"
+        animate="faceDown"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={onClick}
-        initial={{ rotateY: 0 }}
-        animate={{ rotateY: 0 }}
-        transition={{ duration: 0.3 }}
         style={{
           background:
             "linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #1e3a8a 100%)",
@@ -224,12 +226,12 @@ export const Card = ({
   return (
     <motion.div
       className={`${sizeClasses[size]} ${className} relative overflow-hidden cursor-pointer`}
+      variants={cardDeal}
+      initial="hidden"
+      animate="visible"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      initial={{ rotateY: 180 }}
-      animate={{ rotateY: 0 }}
-      transition={{ duration: 0.6 }}
       style={{
         background: "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)",
         borderRadius: "8px",

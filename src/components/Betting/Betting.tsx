@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Coins, Plus, Minus } from "lucide-react";
+import { useAnimations } from "../../hooks";
 
 interface BettingProps {
   playerChips: number;
@@ -27,6 +28,7 @@ export const Betting = ({
   className = "",
 }: BettingProps) => {
   const [customBet, setCustomBet] = useState(defaultBet);
+  const { button, chipBet } = useAnimations();
 
   const handlePresetBet = (amount: number) => {
     if (amount <= playerChips && !disabled) {
@@ -77,9 +79,9 @@ export const Betting = ({
       {currentBet > 0 && (
         <motion.div
           className="mb-4 p-3 bg-green-900 rounded-lg border border-green-600"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.2 }}
+          variants={chipBet}
+          initial="hidden"
+          animate="visible"
         >
           <div className="text-center">
             <div className="text-sm text-green-300">Current Bet</div>
@@ -105,12 +107,14 @@ export const Betting = ({
                   py-2 px-3 rounded-lg font-semibold transition-all
                   ${
                     canAfford && !disabled
-                      ? "bg-blue-600 hover:bg-blue-700 text-white hover:scale-105"
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
                       : "bg-gray-700 text-gray-500 cursor-not-allowed"
                   }
                 `}
-                whileHover={canAfford && !disabled ? { scale: 1.05 } : {}}
-                whileTap={canAfford && !disabled ? { scale: 0.95 } : {}}
+                variants={button}
+                initial="idle"
+                whileHover={canAfford && !disabled ? "hover" : "idle"}
+                whileTap={canAfford && !disabled ? "pressed" : "idle"}
               >
                 ${amount}
               </motion.button>

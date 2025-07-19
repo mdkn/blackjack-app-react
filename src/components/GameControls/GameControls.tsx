@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Play, RotateCcw, Hand as HandIcon, Square } from "lucide-react";
 import { GamePhase } from "../../types";
+import { useAnimations } from "../../hooks";
 
 interface GameControlsProps {
   phase: GamePhase;
@@ -26,6 +27,7 @@ export const GameControls = ({
   const isPlayerTurn = phase === "player-turn";
   const isGameOver = phase === "game-over";
   const isDealing = phase === "dealing" || phase === "dealer-turn";
+  const { button } = useAnimations();
 
   const renderPlayerActions = () => {
     if (!isPlayerTurn) return null;
@@ -45,12 +47,14 @@ export const GameControls = ({
             transition-all duration-200
             ${
               !disabled && playerCanHit
-                ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl"
+                ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
                 : "bg-gray-700 text-gray-500 cursor-not-allowed"
             }
           `}
-          whileHover={!disabled && playerCanHit ? { scale: 1.05 } : {}}
-          whileTap={!disabled && playerCanHit ? { scale: 0.95 } : {}}
+          variants={button}
+          initial="idle"
+          whileHover={!disabled && playerCanHit ? "hover" : "idle"}
+          whileTap={!disabled && playerCanHit ? "pressed" : "idle"}
         >
           <HandIcon className="w-5 h-5" />
           Hit
@@ -64,12 +68,14 @@ export const GameControls = ({
             transition-all duration-200
             ${
               !disabled
-                ? "bg-red-600 hover:bg-red-700 text-white shadow-lg hover:shadow-xl"
+                ? "bg-red-600 hover:bg-red-700 text-white shadow-lg"
                 : "bg-gray-700 text-gray-500 cursor-not-allowed"
             }
           `}
-          whileHover={!disabled ? { scale: 1.05 } : {}}
-          whileTap={!disabled ? { scale: 0.95 } : {}}
+          variants={button}
+          initial="idle"
+          whileHover={!disabled ? "hover" : "idle"}
+          whileTap={!disabled ? "pressed" : "idle"}
         >
           <Square className="w-5 h-5" />
           Stand
@@ -96,12 +102,14 @@ export const GameControls = ({
             transition-all duration-200
             ${
               !disabled
-                ? "bg-green-600 hover:bg-green-700 text-white shadow-lg hover:shadow-xl"
+                ? "bg-green-600 hover:bg-green-700 text-white shadow-lg"
                 : "bg-gray-700 text-gray-500 cursor-not-allowed"
             }
           `}
-          whileHover={!disabled ? { scale: 1.05 } : {}}
-          whileTap={!disabled ? { scale: 0.95 } : {}}
+          variants={button}
+          initial="idle"
+          whileHover={!disabled ? "hover" : "idle"}
+          whileTap={!disabled ? "pressed" : "idle"}
         >
           <Play className="w-5 h-5" />
           Next Round
@@ -119,8 +127,10 @@ export const GameControls = ({
                 : "border-gray-600 text-gray-500 cursor-not-allowed"
             }
           `}
-          whileHover={!disabled ? { scale: 1.05 } : {}}
-          whileTap={!disabled ? { scale: 0.95 } : {}}
+          variants={button}
+          initial="idle"
+          whileHover={!disabled ? "hover" : "idle"}
+          whileTap={!disabled ? "pressed" : "idle"}
         >
           <RotateCcw className="w-5 h-5" />
           New Game

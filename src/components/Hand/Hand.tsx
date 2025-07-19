@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Card } from "../Card";
 import { Hand as HandType } from "../../types";
 import { getHandDisplayValue } from "../../utils";
+import { useAnimations } from "../../hooks";
 
 interface HandProps {
   hand: HandType;
@@ -21,6 +22,7 @@ export const Hand = ({
   className = "",
 }: HandProps) => {
   const { cards, value, isBlackjack, isBust } = hand;
+  const { staggerContainer, staggerItem, result } = useAnimations();
 
   const getStatusColor = () => {
     if (isBust) return "text-red-500";
@@ -42,7 +44,12 @@ export const Hand = ({
       {label && <h3 className="text-lg font-semibold text-white">{label}</h3>}
 
       {/* Cards */}
-      <div className="flex space-x-2">
+      <motion.div
+        className="flex space-x-2"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {cards.length === 0 ? (
           <Card size={cardSize} />
         ) : (
@@ -53,22 +60,7 @@ export const Hand = ({
             return (
               <motion.div
                 key={`${card.suit}-${card.rank}-${index}`}
-                initial={{
-                  opacity: 0,
-                  y: -100,
-                  rotateY: 180,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  rotateY: 0,
-                }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.2,
-                  type: "spring",
-                  stiffness: 100,
-                }}
+                variants={staggerItem}
               >
                 <Card
                   card={shouldHide ? undefined : card}
@@ -79,13 +71,18 @@ export const Hand = ({
             );
           })
         )}
-      </div>
+      </motion.div>
 
       {/* Hand value and status */}
       <div className="text-center">
-        <div className={`text-xl font-bold ${getStatusColor()}`}>
+        <motion.div
+          className={`text-xl font-bold ${getStatusColor()}`}
+          variants={isBust || isBlackjack ? result : undefined}
+          initial={isBust || isBlackjack ? "hidden" : undefined}
+          animate={isBust || isBlackjack ? "visible" : undefined}
+        >
           {getStatusText()}
-        </div>
+        </motion.div>
 
         {/* Additional info for non-hidden hands */}
         {!hideCards && cards.length > 0 && (

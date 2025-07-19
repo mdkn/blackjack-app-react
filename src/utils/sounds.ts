@@ -350,11 +350,12 @@ class HTML5AudioSoundManager implements SoundManager {
     audio.volume = effectiveVolume;
 
     // Generate simple beep based on effect type
-    const frequency = this.getFrequencyForEffect(effect);
-    const duration = this.getDurationForEffect(effect);
+    // Note: In a real implementation, we would use frequency and duration for more sophisticated audio generation
+    // const frequency = this.getFrequencyForEffect(effect);
+    // const duration = this.getDurationForEffect(effect);
 
     // This is a very simple implementation - in a real app you'd want actual audio files
-    const dataUrl = this.generateBeepDataUrl(frequency, duration);
+    const dataUrl = this.generateBeepDataUrl();
     audio.src = dataUrl;
 
     try {
@@ -364,55 +365,36 @@ class HTML5AudioSoundManager implements SoundManager {
     }
   }
 
-  private getFrequencyForEffect(effect: SoundEffect): number {
-    switch (effect) {
-      case "cardDeal":
-        return 800;
-      case "cardFlip":
-        return 1200;
-      case "chipPlace":
-        return 600;
-      case "chipWin":
-        return 700;
-      case "blackjack":
-        return 1000;
-      case "bust":
-        return 300;
-      case "win":
-        return 500;
-      case "lose":
-        return 200;
-      case "push":
-        return 440;
-      default:
-        return 440;
-    }
-  }
+  // Future enhancement: Configurable sound frequencies and durations
+  // private getFrequencyForEffect(effect: SoundEffect): number {
+  //   switch (effect) {
+  //     case "cardDeal": return 800;
+  //     case "cardFlip": return 1200;
+  //     case "chipPlace": return 600;
+  //     case "chipWin": return 700;
+  //     case "blackjack": return 1000;
+  //     case "bust": return 300;
+  //     case "win": return 500;
+  //     case "lose": return 200;
+  //     case "push": return 440;
+  //     default: return 440;
+  //   }
+  // }
 
-  private getDurationForEffect(effect: SoundEffect): number {
-    switch (effect) {
-      case "cardDeal":
-        return 0.1;
-      case "cardFlip":
-        return 0.05;
-      case "chipPlace":
-        return 0.1;
-      case "chipWin":
-        return 0.3;
-      case "blackjack":
-        return 0.5;
-      case "bust":
-        return 0.3;
-      case "win":
-        return 0.3;
-      case "lose":
-        return 0.4;
-      case "push":
-        return 0.2;
-      default:
-        return 0.1;
-    }
-  }
+  // private getDurationForEffect(effect: SoundEffect): number {
+  //   switch (effect) {
+  //     case "cardDeal": return 0.1;
+  //     case "cardFlip": return 0.05;
+  //     case "chipPlace": return 0.1;
+  //     case "chipWin": return 0.3;
+  //     case "blackjack": return 0.5;
+  //     case "bust": return 0.3;
+  //     case "win": return 0.3;
+  //     case "lose": return 0.4;
+  //     case "push": return 0.2;
+  //     default: return 0.1;
+  //   }
+  // }
 
   private generateBeepDataUrl(): string {
     // This would generate a simple WAV file data URL

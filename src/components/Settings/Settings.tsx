@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { useSettingsStore, GameSettings } from "../../stores/settingsStore";
+import { useAnimations } from "../../hooks";
 
 interface SettingsProps {
   isOpen: boolean;
@@ -135,6 +136,7 @@ export const Settings = ({
 }: SettingsProps) => {
   const { settings, updateSetting, resetToDefaults } = useSettingsStore();
   const [hasChanges, setHasChanges] = useState(false);
+  const { modal } = useAnimations();
 
   const handleSettingChange = <K extends keyof GameSettings>(
     key: K,
@@ -160,10 +162,10 @@ export const Settings = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <motion.div
         className={`bg-gray-800 rounded-lg border border-gray-700 w-full max-w-4xl max-h-[90vh] overflow-hidden ${className}`}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.3 }}
+        variants={modal}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-700">
