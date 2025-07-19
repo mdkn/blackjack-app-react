@@ -3,15 +3,15 @@ import { Hand, Player, GameResult } from "../types";
 export function determineWinner(
   playerHand: Hand,
   dealerHand: Hand
-): { result: "win" | "lose" | "push"; message: string } {
+): { result: "player-wins" | "dealer-wins" | "push"; message: string } {
   // Player busted
   if (playerHand.isBust) {
-    return { result: "lose", message: "Player busted" };
+    return { result: "dealer-wins", message: "Player busted" };
   }
 
   // Dealer busted, player didn't
   if (dealerHand.isBust) {
-    return { result: "win", message: "Dealer busted" };
+    return { result: "player-wins", message: "Dealer busted" };
   }
 
   // Both have blackjack
@@ -21,19 +21,19 @@ export function determineWinner(
 
   // Player has blackjack, dealer doesn't
   if (playerHand.isBlackjack) {
-    return { result: "win", message: "Blackjack!" };
+    return { result: "player-wins", message: "Blackjack!" };
   }
 
   // Dealer has blackjack, player doesn't
   if (dealerHand.isBlackjack) {
-    return { result: "lose", message: "Dealer blackjack" };
+    return { result: "dealer-wins", message: "Dealer blackjack" };
   }
 
   // Compare values
   if (playerHand.value > dealerHand.value) {
-    return { result: "win", message: "Player wins" };
+    return { result: "player-wins", message: "Player wins" };
   } else if (playerHand.value < dealerHand.value) {
-    return { result: "lose", message: "Dealer wins" };
+    return { result: "dealer-wins", message: "Dealer wins" };
   } else {
     return { result: "push", message: "Push" };
   }
@@ -41,13 +41,13 @@ export function determineWinner(
 
 export function calculateWinnings(
   bet: number,
-  result: "win" | "lose" | "push",
+  result: "player-wins" | "dealer-wins" | "push",
   isBlackjack: boolean = false
 ): number {
   switch (result) {
-    case "win":
+    case "player-wins":
       return isBlackjack ? Math.floor(bet * 1.5) : bet; // Blackjack pays 3:2
-    case "lose":
+    case "dealer-wins":
       return -bet;
     case "push":
       return 0;

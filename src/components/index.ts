@@ -4,3 +4,4 @@ export { Betting } from "./Betting";
 export { GameControls } from "./GameControls";
 export { GameHistory } from "./GameHistory";
 export { GameStats } from "./GameStats";
+export { Settings } from "./Settings";

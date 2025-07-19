@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Coins, History, BarChart3, Home } from "lucide-react";
-import { useGameStore } from "./stores";
+import {
+  Coins,
+  History,
+  BarChart3,
+  Home,
+  Settings as SettingsIcon,
+} from "lucide-react";
+import { useGameStore, useSettingsStore } from "./stores";
 import {
   Hand,
   Betting,
   GameControls,
   GameHistory,
   GameStats,
+  Settings,
 } from "./components";
 
 type AppView = "game" | "history" | "stats";
@@ -25,8 +32,11 @@ function App() {
     newGame,
   } = useGameStore();
 
+  const { settings } = useSettingsStore();
+
   const [currentView, setCurrentView] = useState<AppView>("game");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const playerCanHit =
     phase === "player-turn" && !player.hand.isBust && player.hand.value < 21;
@@ -80,6 +90,13 @@ function App() {
                 <BarChart3 className="w-4 h-4" />
                 Stats
               </button>
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+              >
+                <SettingsIcon className="w-4 h-4" />
+                Settings
+              </button>
             </nav>
           </div>
 
@@ -105,7 +122,7 @@ function App() {
                 hand={dealer.hand}
                 label="Dealer"
                 hideLastCard={phase === "player-turn" || phase === "dealing"}
-                cardSize="large"
+                cardSize={settings.cardSize}
                 className="mb-4"
               />
             </motion.div>
@@ -120,7 +137,7 @@ function App() {
               <Hand
                 hand={player.hand}
                 label="Your Hand"
-                cardSize="large"
+                cardSize={settings.cardSize}
                 className="mb-4"
               />
             </motion.div>
@@ -138,6 +155,9 @@ function App() {
                   playerChips={player.chips}
                   currentBet={player.currentBet}
                   onPlaceBet={placeBet}
+                  presetBets={settings.betIncrements}
+                  defaultBet={settings.defaultBet}
+                  maxBet={settings.maxBet}
                 />
               )}
 
@@ -185,6 +205,12 @@ function App() {
           history={gameHistory}
           isOpen={isHistoryOpen}
           onClose={() => setIsHistoryOpen(false)}
+        />
+
+        {/* Settings Modal */}
+        <Settings
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
         />
 
         {/* Footer */}

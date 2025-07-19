@@ -68,7 +68,10 @@ export const calculateStatistics = (history: GameResult[]): GameStatistics => {
   ).length;
 
   // Calculate streaks
-  let currentStreak = { type: "none" as const, count: 0 };
+  let currentStreak: { type: "win" | "loss" | "none"; count: number } = {
+    type: "none",
+    count: 0,
+  };
   let longestWinStreak = 0;
   let longestLossStreak = 0;
   let currentWinStreak = 0;

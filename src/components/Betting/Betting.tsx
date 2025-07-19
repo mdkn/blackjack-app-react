@@ -7,10 +7,13 @@ interface BettingProps {
   currentBet: number;
   onPlaceBet: (amount: number) => void;
   disabled?: boolean;
+  presetBets?: number[];
+  defaultBet?: number;
+  maxBet?: number;
   className?: string;
 }
 
-const PRESET_BETS = [5, 10, 25, 50, 100];
+const DEFAULT_PRESET_BETS = [5, 10, 25, 50, 100];
 const MIN_BET = 5;
 
 export const Betting = ({
@@ -18,9 +21,12 @@ export const Betting = ({
   currentBet,
   onPlaceBet,
   disabled = false,
+  presetBets = DEFAULT_PRESET_BETS,
+  defaultBet = MIN_BET,
+  maxBet = 500,
   className = "",
 }: BettingProps) => {
-  const [customBet, setCustomBet] = useState(MIN_BET);
+  const [customBet, setCustomBet] = useState(defaultBet);
 
   const handlePresetBet = (amount: number) => {
     if (amount <= playerChips && !disabled) {
@@ -44,7 +50,7 @@ export const Betting = ({
     setCustomBet(newAmount);
   };
 
-  const maxBet = Math.min(playerChips, 500);
+  const effectiveMaxBet = Math.min(playerChips, maxBet);
 
   return (
     <motion.div
@@ -88,7 +94,7 @@ export const Betting = ({
       <div className="mb-6">
         <div className="text-sm text-gray-400 mb-3">Quick Bets</div>
         <div className="grid grid-cols-5 gap-2">
-          {PRESET_BETS.map(amount => {
+          {presetBets.map(amount => {
             const canAfford = amount <= playerChips;
             return (
               <motion.button
@@ -142,13 +148,13 @@ export const Betting = ({
               onChange={e => {
                 const value = Math.max(
                   MIN_BET,
-                  Math.min(maxBet, parseInt(e.target.value) || MIN_BET)
+                  Math.min(effectiveMaxBet, parseInt(e.target.value) || MIN_BET)
                 );
                 setCustomBet(value);
               }}
               disabled={disabled}
               min={MIN_BET}
-              max={maxBet}
+              max={effectiveMaxBet}
               className="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 pl-8 pr-3 text-white focus:outline-none focus:border-blue-500 disabled:opacity-50"
             />
           </div>

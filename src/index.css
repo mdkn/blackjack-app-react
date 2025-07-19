@@ -19,7 +19,7 @@
   .card {
     background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid #e2e8f0;
-    box-shadow: 
+    box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
     @apply rounded-lg;
@@ -28,14 +28,14 @@
   .card-back {
     background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #1e3a8a 100%);
     border: 2px solid #fbbf24;
-    box-shadow: 
+    box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
     @apply rounded-lg;
   }
 
   .card:hover {
-    box-shadow: 
+    box-shadow:
       0 8px 20px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transform: translateY(-2px);
@@ -51,6 +51,28 @@
 
   .btn-secondary {
     @apply bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+
+  /* Custom slider styling */
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }
 

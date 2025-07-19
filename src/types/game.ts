@@ -44,7 +44,7 @@ export interface GameState {
 export interface GameResult {
   playerHand: Hand;
   dealerHand: Hand;
-  result: "win" | "lose" | "push";
+  result: "player-wins" | "dealer-wins" | "push";
   winnings: number;
   timestamp: Date;
 }
