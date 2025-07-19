@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-table-felt text-white font-sans;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card-front text-black rounded-lg shadow-lg;
+  }
+
+  .card-back {
+    @apply bg-card-back text-white;
+  }
+
+  .chip {
+    @apply rounded-full border-2 border-white shadow-md cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+}
