@@ -9,3 +9,4 @@ export { useGameControlsProps } from "./useGameControlsProps";
 export { useCardProps } from "./useCardProps";
 export { useGameHistoryProps } from "./useGameHistoryProps";
 export { useGameStatsProps } from "./useGameStatsProps";
+export { useStatsPageProps } from "./useStatsPageProps";

@@ -1,17 +1,8 @@
-import { motion } from "framer-motion";
-import { useGameStore } from "../stores";
-import { GameStats } from "../components";
+import { useStatsPageProps } from "../hooks/useStatsPageProps";
+import { StatsPagePresentation } from "./StatsPagePresentation";
 
 export const StatsPage = () => {
-  const { gameHistory } = useGameStore();
+  const statsPageLogic = useStatsPageProps();
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <GameStats history={gameHistory} />
-    </motion.div>
-  );
+  return <StatsPagePresentation {...statsPageLogic} />;
 };
