@@ -252,12 +252,17 @@ export const SettingsPresentation = ({
                   { value: 6, label: "6 Decks (Standard)" },
                   { value: 8, label: "8 Decks" },
                 ]}
-                onChange={value =>
-                  handleSettingChange(
-                    "numberOfDecks",
-                    Number(value) as 1 | 4 | 6 | 8
-                  )
-                }
+                onChange={value => {
+                  const numValue = Number(value);
+                  if (
+                    numValue === 1 ||
+                    numValue === 4 ||
+                    numValue === 6 ||
+                    numValue === 8
+                  ) {
+                    handleSettingChange("numberOfDecks", numValue);
+                  }
+                }}
               />
 
               <Slider
@@ -285,12 +290,16 @@ export const SettingsPresentation = ({
                   { value: "normal", label: "Normal" },
                   { value: "slow", label: "Slow" },
                 ]}
-                onChange={value =>
-                  handleSettingChange(
-                    "animationSpeed",
-                    value as "slow" | "normal" | "fast" | "instant"
-                  )
-                }
+                onChange={value => {
+                  if (
+                    value === "slow" ||
+                    value === "normal" ||
+                    value === "fast" ||
+                    value === "instant"
+                  ) {
+                    handleSettingChange("animationSpeed", value);
+                  }
+                }}
               />
 
               <Select
@@ -301,12 +310,15 @@ export const SettingsPresentation = ({
                   { value: "medium", label: "Medium" },
                   { value: "large", label: "Large" },
                 ]}
-                onChange={value =>
-                  handleSettingChange(
-                    "cardSize",
-                    value as "small" | "medium" | "large"
-                  )
-                }
+                onChange={value => {
+                  if (
+                    value === "small" ||
+                    value === "medium" ||
+                    value === "large"
+                  ) {
+                    handleSettingChange("cardSize", value);
+                  }
+                }}
               />
 
               <Toggle

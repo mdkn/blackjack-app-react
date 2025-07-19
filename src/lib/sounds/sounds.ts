@@ -32,9 +32,11 @@ class WebAudioSoundManager implements SoundManager {
 
   private initializeAudioContext() {
     try {
-      this.audioContext = new (window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext)();
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        this.audioContext = new AudioContextClass();
+      }
     } catch (error) {
       console.warn(
         "Web Audio API not supported, falling back to HTML5 Audio",

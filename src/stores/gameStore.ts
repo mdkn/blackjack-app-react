@@ -38,7 +38,7 @@ const initialDeck: Deck = createDeck();
 
 export const useGameStore = create<GameStore>((set, get) => ({
   // Initial state
-  phase: "betting" as GamePhase,
+  phase: "betting" satisfies GamePhase,
   player: initialPlayer,
   dealer: initialDealer,
   deck: initialDeck,
