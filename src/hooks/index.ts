@@ -4,3 +4,6 @@ export { useGameProps } from "./useGameProps";
 export { useAppProps } from "./useAppProps";
 export { useBettingContainer } from "./useBettingContainer";
 export { useSettingsContainer } from "./useSettingsContainer";
+export { useHandProps } from "./useHandProps";
+export { useGameControlsProps } from "./useGameControlsProps";
+export { useCardProps } from "./useCardProps";
