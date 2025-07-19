@@ -1,38 +1,16 @@
 import { motion } from "framer-motion";
-import { useGameStore, useSettingsStore } from "../stores";
-import { useSound } from "../hooks";
+import { useGameStore } from "../stores";
+import { useGameProps } from "../hooks";
 import { Hand, Betting, GameControls } from "../components";
 
 export const GamePage = () => {
-  const { player, dealer, phase, hit, stand, resetRound, newGame, placeBet } =
-    useGameStore();
-
-  const { settings } = useSettingsStore();
-  const { playSound } = useSound();
-
-  const playerCanHit =
-    phase === "player-turn" && !player.hand.isBust && player.hand.value < 21;
-
-  // Wrapper functions that include sound effects
-  const handlePlaceBet = (amount: number) => {
-    playSound("chipPlace");
-    placeBet(amount);
-  };
-
-  const handleHit = () => {
-    playSound("cardDeal");
-    hit();
-  };
-
-  const handleStand = () => {
-    playSound("cardFlip");
-    stand();
-  };
-
-  const handleNewRound = () => {
-    playSound("chipPlace");
-    resetRound();
-  };
+  const { phase } = useGameStore();
+  const {
+    getDealerHandProps,
+    getPlayerHandProps,
+    getBettingProps,
+    getGameControlsProps,
+  } = useGameProps();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -43,13 +21,7 @@ export const GamePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <Hand
-          hand={dealer.hand}
-          label="Dealer"
-          hideLastCard={phase === "player-turn" || phase === "dealing"}
-          cardSize={settings.cardSize}
-          className="mb-4"
-        />
+        <Hand {...getDealerHandProps()} />
       </motion.div>
 
       {/* Player Section */}
@@ -59,12 +31,7 @@ export const GamePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Hand
-          hand={player.hand}
-          label="Your Hand"
-          cardSize={settings.cardSize}
-          className="mb-4"
-        />
+        <Hand {...getPlayerHandProps()} />
       </motion.div>
 
       {/* Controls Section */}
@@ -75,26 +42,10 @@ export const GamePage = () => {
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         {/* Betting Component */}
-        {phase === "betting" && (
-          <Betting
-            playerChips={player.chips}
-            currentBet={player.currentBet}
-            onPlaceBet={handlePlaceBet}
-            presetBets={settings.betIncrements}
-            defaultBet={settings.defaultBet}
-            maxBet={settings.maxBet}
-          />
-        )}
+        {phase === "betting" && <Betting {...getBettingProps()} />}
 
         {/* Game Controls */}
-        <GameControls
-          phase={phase}
-          onHit={handleHit}
-          onStand={handleStand}
-          onNewRound={handleNewRound}
-          onNewGame={newGame}
-          playerCanHit={playerCanHit}
-        />
+        <GameControls {...getGameControlsProps()} />
       </motion.div>
     </div>
   );

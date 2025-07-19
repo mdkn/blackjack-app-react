@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Coins,
@@ -8,17 +7,20 @@ import {
   Settings as SettingsIcon,
 } from "lucide-react";
 import { useGameStore } from "./stores";
+import { useAppProps } from "./hooks";
 import { GameHistory, Settings } from "./components";
 import { GamePage, StatsPage } from "./pages";
 
-type AppView = "game" | "stats";
-
 function App() {
-  const { player, gameHistory } = useGameStore();
-
-  const [currentView, setCurrentView] = useState<AppView>("game");
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { player } = useGameStore();
+  const {
+    currentView,
+    getNavButtonProps,
+    getHistoryButtonProps,
+    getSettingsButtonProps,
+    getGameHistoryProps,
+    getSettingsProps,
+  } = useAppProps();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-800 to-green-900 p-4">
@@ -35,44 +37,24 @@ function App() {
 
             {/* Navigation */}
             <nav className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentView("game")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                  currentView === "game"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
-              >
+              <button {...getNavButtonProps("game")}>
                 <Home className="w-4 h-4" />
                 Game
               </button>
-              <button
-                onClick={() => setIsHistoryOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
-              >
+              <button {...getHistoryButtonProps()}>
                 <History className="w-4 h-4" />
                 History
-                {gameHistory.length > 0 && (
+                {getGameHistoryProps().history.length > 0 && (
                   <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                    {gameHistory.length}
+                    {getGameHistoryProps().history.length}
                   </span>
                 )}
               </button>
-              <button
-                onClick={() => setCurrentView("stats")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                  currentView === "stats"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                }`}
-              >
+              <button {...getNavButtonProps("stats")}>
                 <BarChart3 className="w-4 h-4" />
                 Stats
               </button>
-              <button
-                onClick={() => setIsSettingsOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
-              >
+              <button {...getSettingsButtonProps()}>
                 <SettingsIcon className="w-4 h-4" />
                 Settings
               </button>
@@ -107,17 +89,10 @@ function App() {
         )}
 
         {/* Game History Modal */}
-        <GameHistory
-          history={gameHistory}
-          isOpen={isHistoryOpen}
-          onClose={() => setIsHistoryOpen(false)}
-        />
+        <GameHistory {...getGameHistoryProps()} />
 
         {/* Settings Modal */}
-        <Settings
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-        />
+        <Settings {...getSettingsProps()} />
 
         {/* Footer */}
         <motion.footer
