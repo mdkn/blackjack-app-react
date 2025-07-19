@@ -49,6 +49,7 @@ storybook-static
 
 # Tauri
 src-tauri/target
+src-tauri/gen
 
 # OS generated files
 Thumbs.db
