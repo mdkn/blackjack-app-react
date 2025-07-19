@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { GameResult } from "../types";
 
 interface UseGameHistoryPropsParams {
@@ -32,7 +33,7 @@ export const useGameHistoryProps = ({
 
   const getResultIcon = useMemo(() => {
     const ResultIcon = (result: GameResult["result"]): React.ReactElement => {
-      const { TrendingUp, TrendingDown, Minus } = require("lucide-react");
+      // Icons imported at module level
 
       switch (result) {
         case "player-wins":

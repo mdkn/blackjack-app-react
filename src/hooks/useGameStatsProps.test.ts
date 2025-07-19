@@ -12,7 +12,6 @@ const mockCalculateStatistics = vi.mocked(statisticsModule.calculateStatistics);
 describe("useGameStatsProps", () => {
   const mockHistory: GameResult[] = [
     {
-      id: "1",
       timestamp: new Date(),
       result: "player-wins",
       playerHand: {
@@ -27,11 +26,9 @@ describe("useGameStatsProps", () => {
         isBlackjack: false,
         isBust: false,
       },
-      betAmount: 50,
-      payout: 50,
+      winnings: 50,
     },
     {
-      id: "2",
       timestamp: new Date(),
       result: "dealer-wins",
       playerHand: {
@@ -46,8 +43,7 @@ describe("useGameStatsProps", () => {
         isBlackjack: false,
         isBust: false,
       },
-      betAmount: 25,
-      payout: 0,
+      winnings: 0,
     },
   ];
 
@@ -55,19 +51,18 @@ describe("useGameStatsProps", () => {
     totalGames: 2,
     gamesWon: 1,
     gamesLost: 1,
-    gamesTied: 0,
+    gamesPushed: 0,
     winRate: 50,
-    totalWagered: 75,
     totalWinnings: 50,
-    netProfit: -25,
-    averageBet: 37.5,
     biggestWin: 50,
-    biggestLoss: 25,
+    biggestLoss: -25,
+    averageWinnings: 25,
+    blackjacksHit: 0,
+    timesPlayerBusted: 0,
+    timesDealerBusted: 0,
+    currentStreak: { type: "loss" as const, count: 1 },
     longestWinStreak: 1,
     longestLossStreak: 1,
-    currentStreak: { type: "loss", count: 1 },
-    blackjacks: 0,
-    busts: 0,
   };
 
   beforeEach(() => {
@@ -184,16 +179,15 @@ describe("useGameStatsProps", () => {
   });
 
   it("should recalculate stats when history changes", () => {
-    const { result, rerender } = renderHook(props => useGameStatsProps(props), {
+    const { rerender } = renderHook(props => useGameStatsProps(props), {
       initialProps: { history: mockHistory },
     });
 
     const newHistory = [
       ...mockHistory,
       {
-        id: "3",
         timestamp: new Date(),
-        result: "tie" as const,
+        result: "push" as const,
         playerHand: {
           cards: [],
           value: 20,
@@ -206,8 +200,7 @@ describe("useGameStatsProps", () => {
           isBlackjack: false,
           isBust: false,
         },
-        betAmount: 10,
-        payout: 10,
+        winnings: 10,
       },
     ];
 
@@ -223,13 +216,11 @@ describe("useGameStatsProps", () => {
     });
 
     const firstGetWinRateColor = result.current.getWinRateColor;
-    const firstGetProfitColor = result.current.getProfitColor;
     const firstGetStreakColor = result.current.getStreakColor;
 
     rerender({ history: mockHistory });
 
     expect(result.current.getWinRateColor).toBe(firstGetWinRateColor);
-    expect(result.current.getProfitColor).toBe(firstGetProfitColor);
     expect(result.current.getStreakColor).toBe(firstGetStreakColor);
   });
 });
