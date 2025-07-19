@@ -68,6 +68,7 @@ export const useGameProps = (): UseGamePropsReturn => {
     },
     onNewGame: newGame,
     playerCanHit,
+    playerChips: player.chips,
   });
 
   return {

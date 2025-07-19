@@ -9,6 +9,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "betting" as GamePhase,
         playerCanHit: false,
+        playerChips: 1000,
       })
     );
 
@@ -23,6 +24,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "dealing" as GamePhase,
         playerCanHit: false,
+        playerChips: 1000,
       })
     );
 
@@ -35,6 +37,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "player-turn" as GamePhase,
         playerCanHit: true,
+        playerChips: 1000,
       })
     );
 
@@ -47,6 +50,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "player-turn" as GamePhase,
         playerCanHit: false,
+        playerChips: 1000,
       })
     );
 
@@ -61,6 +65,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "dealer-turn" as GamePhase,
         playerCanHit: false,
+        playerChips: 1000,
       })
     );
 
@@ -73,6 +78,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "game-over" as GamePhase,
         playerCanHit: false,
+        playerChips: 1000,
       })
     );
 
@@ -85,6 +91,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "player-turn" as GamePhase,
         playerCanHit: true,
+        playerChips: 1000,
         disabled: false,
       })
     );
@@ -100,6 +107,7 @@ describe("useGameControlsProps", () => {
       useGameControlsProps({
         phase: "player-turn" as GamePhase,
         playerCanHit: true,
+        playerChips: 1000,
         disabled: true,
       })
     );
@@ -110,6 +118,32 @@ describe("useGameControlsProps", () => {
     expect(result.current.canNewGame).toBe(false);
   });
 
+  it("should disable next round button when player has $0", () => {
+    const { result } = renderHook(() =>
+      useGameControlsProps({
+        phase: "game-over" as GamePhase,
+        playerCanHit: false,
+        playerChips: 0,
+      })
+    );
+
+    expect(result.current.canNextRound).toBe(false);
+    expect(result.current.canNewGame).toBe(true); // New game should still be available
+  });
+
+  it("should enable next round button when player has chips", () => {
+    const { result } = renderHook(() =>
+      useGameControlsProps({
+        phase: "game-over" as GamePhase,
+        playerCanHit: false,
+        playerChips: 100,
+      })
+    );
+
+    expect(result.current.canNextRound).toBe(true);
+    expect(result.current.canNewGame).toBe(true);
+  });
+
   it("should memoize status message and color", () => {
     const { result, rerender } = renderHook(
       props => useGameControlsProps(props),
@@ -117,6 +151,7 @@ describe("useGameControlsProps", () => {
         initialProps: {
           phase: "betting" as GamePhase,
           playerCanHit: false,
+          playerChips: 1000,
         },
       }
     );
@@ -127,6 +162,7 @@ describe("useGameControlsProps", () => {
     rerender({
       phase: "betting" as GamePhase,
       playerCanHit: false,
+      playerChips: 1000,
     });
 
     expect(result.current.statusMessage).toBe(firstStatusMessage);
@@ -140,6 +176,7 @@ describe("useGameControlsProps", () => {
         initialProps: {
           phase: "betting" as GamePhase,
           playerCanHit: false,
+          playerChips: 1000,
         },
       }
     );
@@ -151,6 +188,7 @@ describe("useGameControlsProps", () => {
     rerender({
       phase: "player-turn" as GamePhase,
       playerCanHit: true,
+      playerChips: 1000,
     });
 
     expect(result.current.statusMessage).toBe("Your turn - Hit or Stand?");

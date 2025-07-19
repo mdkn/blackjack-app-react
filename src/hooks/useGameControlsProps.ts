@@ -4,6 +4,7 @@ import { GamePhase } from "../types";
 interface UseGameControlsPropsParams {
   phase: GamePhase;
   playerCanHit: boolean;
+  playerChips: number;
   disabled?: boolean;
 }
 
@@ -23,6 +24,7 @@ interface UseGameControlsPropsReturn {
 export const useGameControlsProps = ({
   phase,
   playerCanHit,
+  playerChips,
   disabled = false,
 }: UseGameControlsPropsParams): UseGameControlsPropsReturn => {
   const isPlayerTurn = useMemo(() => phase === "player-turn", [phase]);
@@ -71,7 +73,10 @@ export const useGameControlsProps = ({
     [disabled, playerCanHit]
   );
   const canStand = useMemo(() => !disabled, [disabled]);
-  const canNextRound = useMemo(() => !disabled, [disabled]);
+  const canNextRound = useMemo(
+    () => !disabled && playerChips > 0,
+    [disabled, playerChips]
+  );
   const canNewGame = useMemo(() => !disabled, [disabled]);
 
   return {

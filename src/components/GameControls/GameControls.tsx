@@ -9,6 +9,7 @@ interface GameControlsProps {
   onNewRound: () => void;
   onNewGame: () => void;
   playerCanHit: boolean;
+  playerChips: number;
   disabled?: boolean;
   className?: string;
 }
@@ -17,6 +18,7 @@ export const GameControls = (props: GameControlsProps) => {
   const gameControlsLogic = useGameControlsProps({
     phase: props.phase,
     playerCanHit: props.playerCanHit,
+    playerChips: props.playerChips,
     disabled: props.disabled,
   });
 
