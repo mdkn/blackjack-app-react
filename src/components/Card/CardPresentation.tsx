@@ -197,7 +197,7 @@ export const CardPresentation = ({
 
         {/* Bottom right corner (rotated) */}
         <div
-          className={`flex flex-col items-end rotate-180 ${isRed ? "text-red-600" : "text-gray-900"}`}
+          className={`flex flex-col items-start rotate-180 ${isRed ? "text-red-600" : "text-gray-900"} self-end`}
         >
           <span className="font-bold leading-none text-sm">{card.rank}</span>
           <SuitIcon suit={card.suit} className="w-3 h-3 mt-0.5" filled />
