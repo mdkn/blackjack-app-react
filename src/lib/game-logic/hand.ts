@@ -48,6 +48,14 @@ export const calculateHandValue = (cards: Card[]): number => {
   return total;
 };
 
+export const calculateVisibleHandValue = (
+  cards: Card[],
+  visibleCount: number
+): number => {
+  const visibleCards = cards.slice(0, Math.max(0, visibleCount));
+  return calculateHandValue(visibleCards);
+};
+
 export const canHit = (hand: Hand): boolean => {
   return !hand.isBust && hand.value < 21;
 };
