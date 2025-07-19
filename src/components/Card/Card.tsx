@@ -3,6 +3,12 @@ import { motion } from "framer-motion";
 import { Card as CardType } from "../../types";
 import { SuitIcon } from "./SuitIcons";
 import { useAnimations } from "../../hooks";
+import {
+  getSuitPatternConfig,
+  getFaceCardText,
+  isRedCard,
+  SuitPatternConfig,
+} from "../../lib/card-patterns";
 
 interface CardProps {
   card?: CardType;
@@ -19,129 +25,62 @@ const sizeClasses = {
 };
 
 const getSuitPattern = (suit: CardType["suit"], rank: CardType["rank"]) => {
-  // Special patterns for face cards
-  if (rank === "J" || rank === "Q" || rank === "K") {
-    return (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <SuitIcon suit={suit} className="w-8 h-8 opacity-15" filled />
-      </div>
-    );
+  const config: SuitPatternConfig = getSuitPatternConfig(suit, rank);
+
+  switch (config.type) {
+    case "face":
+      if (config.centerIcon) {
+        return (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <SuitIcon
+              suit={suit}
+              className={`${config.centerIcon.size} ${config.centerIcon.opacity}`}
+              filled={config.centerIcon.filled}
+            />
+          </div>
+        );
+      }
+      return null;
+
+    case "ace":
+      if (config.centerIcon) {
+        return (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <SuitIcon
+              suit={suit}
+              className={config.centerIcon.size}
+              filled={config.centerIcon.filled}
+            />
+          </div>
+        );
+      }
+      return null;
+
+    case "number": {
+      const suitElements: React.ReactElement[] = [];
+      if (config.positions && config.iconSize && config.filled !== undefined) {
+        config.positions.forEach((pos, index) => {
+          suitElements.push(
+            <div
+              key={index}
+              className={`absolute ${config.iconSize} flex items-center justify-center ${pos.rotate ? "rotate-180" : ""}`}
+              style={{ left: pos.x, top: pos.y }}
+            >
+              <SuitIcon
+                suit={suit}
+                className={config.iconSize}
+                filled={config.filled}
+              />
+            </div>
+          );
+        });
+      }
+      return <>{suitElements}</>;
+    }
+
+    default:
+      return null;
   }
-
-  // Special pattern for Ace
-  if (rank === "A") {
-    return (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <SuitIcon suit={suit} className="w-6 h-6" filled />
-      </div>
-    );
-  }
-
-  // Number card patterns
-  const suitElements: React.ReactElement[] = [];
-  const num = parseInt(rank) || 0;
-
-  if (num >= 2 && num <= 10) {
-    const positions = getCardPositions(num);
-    positions.forEach((pos, index) => {
-      suitElements.push(
-        <div
-          key={index}
-          className={`absolute w-3 h-3 flex items-center justify-center ${pos.rotate ? "rotate-180" : ""}`}
-          style={{ left: pos.x, top: pos.y }}
-        >
-          <SuitIcon suit={suit} className="w-3 h-3" filled />
-        </div>
-      );
-    });
-  }
-
-  return <>{suitElements}</>;
-};
-
-const getCardPositions = (num: number) => {
-  const positions = [];
-
-  switch (num) {
-    case 2:
-      positions.push({ x: "50%", y: "25%", rotate: false });
-      positions.push({ x: "50%", y: "75%", rotate: true });
-      break;
-    case 3:
-      positions.push({ x: "50%", y: "20%", rotate: false });
-      positions.push({ x: "50%", y: "50%", rotate: false });
-      positions.push({ x: "50%", y: "80%", rotate: true });
-      break;
-    case 4:
-      positions.push({ x: "30%", y: "25%", rotate: false });
-      positions.push({ x: "70%", y: "25%", rotate: false });
-      positions.push({ x: "30%", y: "75%", rotate: true });
-      positions.push({ x: "70%", y: "75%", rotate: true });
-      break;
-    case 5:
-      positions.push({ x: "30%", y: "20%", rotate: false });
-      positions.push({ x: "70%", y: "20%", rotate: false });
-      positions.push({ x: "50%", y: "50%", rotate: false });
-      positions.push({ x: "30%", y: "80%", rotate: true });
-      positions.push({ x: "70%", y: "80%", rotate: true });
-      break;
-    case 6:
-      positions.push({ x: "30%", y: "20%", rotate: false });
-      positions.push({ x: "70%", y: "20%", rotate: false });
-      positions.push({ x: "30%", y: "50%", rotate: false });
-      positions.push({ x: "70%", y: "50%", rotate: false });
-      positions.push({ x: "30%", y: "80%", rotate: true });
-      positions.push({ x: "70%", y: "80%", rotate: true });
-      break;
-    case 7:
-      positions.push({ x: "30%", y: "20%", rotate: false });
-      positions.push({ x: "70%", y: "20%", rotate: false });
-      positions.push({ x: "50%", y: "35%", rotate: false });
-      positions.push({ x: "30%", y: "50%", rotate: false });
-      positions.push({ x: "70%", y: "50%", rotate: false });
-      positions.push({ x: "30%", y: "80%", rotate: true });
-      positions.push({ x: "70%", y: "80%", rotate: true });
-      break;
-    case 8:
-      positions.push({ x: "30%", y: "20%", rotate: false });
-      positions.push({ x: "70%", y: "20%", rotate: false });
-      positions.push({ x: "50%", y: "30%", rotate: false });
-      positions.push({ x: "30%", y: "45%", rotate: false });
-      positions.push({ x: "70%", y: "45%", rotate: false });
-      positions.push({ x: "50%", y: "70%", rotate: true });
-      positions.push({ x: "30%", y: "80%", rotate: true });
-      positions.push({ x: "70%", y: "80%", rotate: true });
-      break;
-    case 9:
-      positions.push({ x: "30%", y: "18%", rotate: false });
-      positions.push({ x: "70%", y: "18%", rotate: false });
-      positions.push({ x: "30%", y: "35%", rotate: false });
-      positions.push({ x: "70%", y: "35%", rotate: false });
-      positions.push({ x: "50%", y: "50%", rotate: false });
-      positions.push({ x: "30%", y: "65%", rotate: true });
-      positions.push({ x: "70%", y: "65%", rotate: true });
-      positions.push({ x: "30%", y: "82%", rotate: true });
-      positions.push({ x: "70%", y: "82%", rotate: true });
-      break;
-    case 10:
-      positions.push({ x: "30%", y: "18%", rotate: false });
-      positions.push({ x: "70%", y: "18%", rotate: false });
-      positions.push({ x: "50%", y: "28%", rotate: false });
-      positions.push({ x: "30%", y: "38%", rotate: false });
-      positions.push({ x: "70%", y: "38%", rotate: false });
-      positions.push({ x: "30%", y: "62%", rotate: true });
-      positions.push({ x: "70%", y: "62%", rotate: true });
-      positions.push({ x: "50%", y: "72%", rotate: true });
-      positions.push({ x: "30%", y: "82%", rotate: true });
-      positions.push({ x: "70%", y: "82%", rotate: true });
-      break;
-  }
-
-  return positions.map(pos => ({
-    ...pos,
-    x: `calc(${pos.x} - 6px)`,
-    y: `calc(${pos.y} - 6px)`,
-  }));
 };
 
 export const Card = ({
@@ -151,7 +90,7 @@ export const Card = ({
   className = "",
   onClick,
 }: CardProps) => {
-  const isRed = card && (card.suit === "hearts" || card.suit === "diamonds");
+  const isRed = card && isRedCard(card.suit);
   const { cardDeal, cardFlip } = useAnimations();
 
   if (faceDown) {
@@ -271,9 +210,7 @@ export const Card = ({
             <div
               className={`text-xs font-semibold opacity-80 ${isRed ? "text-red-600" : "text-gray-900"}`}
             >
-              {card.rank === "J" && "JACK"}
-              {card.rank === "Q" && "QUEEN"}
-              {card.rank === "K" && "KING"}
+              {getFaceCardText(card.rank)}
             </div>
           </div>
         )}
