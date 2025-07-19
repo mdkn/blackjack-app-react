@@ -73,13 +73,13 @@ describe("useCardProps", () => {
       useCardProps({ card: mockCard, size: "large" })
     );
 
-    expect(result.current.sizeClasses).toContain("w-24");
+    expect(result.current.sizeClasses).toContain("w-20");
   });
 
   it("should default size to medium", () => {
     const { result } = renderHook(() => useCardProps({ card: mockCard }));
 
-    expect(result.current.sizeClasses).toContain("w-18");
+    expect(result.current.sizeClasses).toContain("w-16");
   });
 
   it("should detect face cards correctly", () => {

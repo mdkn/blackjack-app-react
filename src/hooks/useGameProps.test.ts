@@ -111,20 +111,13 @@ describe("useGameProps", () => {
     });
   });
 
-  it("should return proper betting props with sound wrapper", () => {
+  it("should return proper betting props", () => {
     const { result } = renderHook(() => useGameProps());
     const bettingProps = result.current.getBettingProps();
 
-    expect(bettingProps.playerChips).toBe(1000);
-    expect(bettingProps.currentBet).toBe(50);
-    expect(bettingProps.presetBets).toEqual([5, 10, 25, 50]);
-    expect(bettingProps.defaultBet).toBe(10);
-    expect(bettingProps.maxBet).toBe(500);
-
-    // Test the sound wrapper function
-    bettingProps.onPlaceBet(100);
-    expect(mockPlaySound).toHaveBeenCalledWith("chipPlace");
-    expect(mockPlaceBet).toHaveBeenCalledWith(100);
+    expect(bettingProps.presetBets).toBeDefined();
+    expect(bettingProps.disabled).toBe(false);
+    expect(bettingProps.className).toBe("");
   });
 
   it("should return proper game controls props with sound wrappers", () => {

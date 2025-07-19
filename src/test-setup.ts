@@ -1,4 +1,5 @@
-// import { expect } from "vitest";
+import { expect } from "vitest";
+import * as matchers from "@testing-library/jest-dom/matchers";
 
-// Basic setup for unit tests
-// React Testing Library setup will be added when we test components
+// Extend vitest expect with DOM matchers
+expect.extend(matchers);

@@ -121,26 +121,26 @@ describe("useGameStatsProps", () => {
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getProfitColor(100);
+    const color = result.current.getWinRateColor(70);
     expect(color).toBe("green");
   });
 
-  it("should return getProfitColor function that returns red for negative profit", () => {
+  it("should return getWinRateColor function that returns red for low win rate", () => {
     const { result } = renderHook(() =>
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getProfitColor(-50);
+    const color = result.current.getWinRateColor(30);
     expect(color).toBe("red");
   });
 
-  it("should return getProfitColor function that returns gray for zero profit", () => {
+  it("should return getWinRateColor function that returns yellow for medium win rate", () => {
     const { result } = renderHook(() =>
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getProfitColor(0);
-    expect(color).toBe("gray");
+    const color = result.current.getWinRateColor(50);
+    expect(color).toBe("yellow");
   });
 
   it("should return getStreakColor function that returns green for win streak", () => {
@@ -148,7 +148,7 @@ describe("useGameStatsProps", () => {
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getStreakColor("win");
+    const color = result.current.getStreakColor({ type: "win", count: 3 });
     expect(color).toBe("green");
   });
 
@@ -157,7 +157,7 @@ describe("useGameStatsProps", () => {
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getStreakColor("loss");
+    const color = result.current.getStreakColor({ type: "loss", count: 2 });
     expect(color).toBe("red");
   });
 
@@ -166,8 +166,8 @@ describe("useGameStatsProps", () => {
       useGameStatsProps({ history: mockHistory })
     );
 
-    const color = result.current.getStreakColor("tie");
-    expect(color).toBe("yellow");
+    const color = result.current.getStreakColor({ type: "none", count: 0 });
+    expect(color).toBe("gray");
   });
 
   it("should memoize stats calculation", () => {
