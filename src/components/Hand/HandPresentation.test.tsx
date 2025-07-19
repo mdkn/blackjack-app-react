@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { HandPresentation } from "./HandPresentation";
@@ -32,8 +31,8 @@ vi.mock("../Card", () => ({
 describe("HandPresentation", () => {
   const mockHand: Hand = {
     cards: [
-      { suit: "hearts", rank: "A", value: 11 },
-      { suit: "spades", rank: "K", value: 10 },
+      { suit: "hearts", rank: "A" },
+      { suit: "spades", rank: "K" },
     ],
     value: 21,
     isBlackjack: true,
@@ -153,9 +152,9 @@ describe("HandPresentation", () => {
   it("should render multiple cards", () => {
     const multiCardHand: Hand = {
       cards: [
-        { suit: "hearts", rank: "5", value: 5 },
-        { suit: "spades", rank: "6", value: 6 },
-        { suit: "clubs", rank: "4", value: 4 },
+        { suit: "hearts", rank: "5" },
+        { suit: "spades", rank: "6" },
+        { suit: "clubs", rank: "4" },
       ],
       value: 15,
       isBlackjack: false,

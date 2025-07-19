@@ -7,25 +7,21 @@ describe("useCardProps", () => {
   const mockCard: Card = {
     suit: "hearts",
     rank: "A",
-    value: 11,
   };
 
   const mockSpadeCard: Card = {
     suit: "spades",
     rank: "K",
-    value: 10,
   };
 
   const mockClubCard: Card = {
     suit: "clubs",
     rank: "Q",
-    value: 10,
   };
 
   const mockDiamondCard: Card = {
     suit: "diamonds",
     rank: "J",
-    value: 10,
   };
 
   it("should return red color for hearts", () => {

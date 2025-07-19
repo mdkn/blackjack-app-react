@@ -15,13 +15,12 @@ vi.mock("react", async () => {
 
 describe("useGameHistoryProps", () => {
   const mockPlayerWinResult: GameResult = {
-    id: "1",
     timestamp: new Date("2023-01-01T10:00:00Z"),
     result: "player-wins",
     playerHand: {
       cards: [
-        { suit: "hearts", rank: "10", value: 10 },
-        { suit: "spades", rank: "9", value: 9 },
+        { suit: "hearts", rank: "10" },
+        { suit: "spades", rank: "9" },
       ],
       value: 19,
       isBlackjack: false,
@@ -29,25 +28,23 @@ describe("useGameHistoryProps", () => {
     },
     dealerHand: {
       cards: [
-        { suit: "clubs", rank: "10", value: 10 },
-        { suit: "diamonds", rank: "8", value: 8 },
+        { suit: "clubs", rank: "10" },
+        { suit: "diamonds", rank: "8" },
       ],
       value: 18,
       isBlackjack: false,
       isBust: false,
     },
-    betAmount: 50,
-    payout: 50,
+    winnings: 50,
   };
 
   const mockDealerWinResult: GameResult = {
-    id: "2",
     timestamp: new Date("2023-01-01T11:00:00Z"),
     result: "dealer-wins",
     playerHand: {
       cards: [
-        { suit: "hearts", rank: "10", value: 10 },
-        { suit: "spades", rank: "8", value: 8 },
+        { suit: "hearts", rank: "10" },
+        { suit: "spades", rank: "8" },
       ],
       value: 18,
       isBlackjack: false,
@@ -55,25 +52,23 @@ describe("useGameHistoryProps", () => {
     },
     dealerHand: {
       cards: [
-        { suit: "clubs", rank: "10", value: 10 },
-        { suit: "diamonds", rank: "9", value: 9 },
+        { suit: "clubs", rank: "10" },
+        { suit: "diamonds", rank: "9" },
       ],
       value: 19,
       isBlackjack: false,
       isBust: false,
     },
-    betAmount: 25,
-    payout: 0,
+    winnings: 0,
   };
 
   const mockTieResult: GameResult = {
-    id: "3",
     timestamp: new Date("2023-01-01T12:00:00Z"),
-    result: "tie",
+    result: "push",
     playerHand: {
       cards: [
-        { suit: "hearts", rank: "10", value: 10 },
-        { suit: "spades", rank: "8", value: 8 },
+        { suit: "hearts", rank: "10" },
+        { suit: "spades", rank: "8" },
       ],
       value: 18,
       isBlackjack: false,
@@ -81,15 +76,14 @@ describe("useGameHistoryProps", () => {
     },
     dealerHand: {
       cards: [
-        { suit: "clubs", rank: "10", value: 10 },
-        { suit: "diamonds", rank: "8", value: 8 },
+        { suit: "clubs", rank: "10" },
+        { suit: "diamonds", rank: "8" },
       ],
       value: 18,
       isBlackjack: false,
       isBust: false,
     },
-    betAmount: 75,
-    payout: 75,
+    winnings: 75,
   };
 
   it("should format timestamp correctly", () => {
@@ -188,14 +182,14 @@ describe("useGameHistoryProps", () => {
       }
     );
 
-    const firstFormatTimestamp = result.current.formatTimestamp;
+    const firstFormatTime = result.current.formatTime;
     const firstGetResultColor = result.current.getResultColor;
     const firstGetResultText = result.current.getResultText;
     const firstGetResultIcon = result.current.getResultIcon;
 
     rerender({ history: [mockPlayerWinResult] });
 
-    expect(result.current.formatTimestamp).toBe(firstFormatTimestamp);
+    expect(result.current.formatTime).toBe(firstFormatTime);
     expect(result.current.getResultColor).toBe(firstGetResultColor);
     expect(result.current.getResultText).toBe(firstGetResultText);
     expect(result.current.getResultIcon).toBe(firstGetResultIcon);

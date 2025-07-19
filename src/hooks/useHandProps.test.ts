@@ -6,8 +6,8 @@ import { Hand } from "../types";
 describe("useHandProps", () => {
   const mockBlackjackHand: Hand = {
     cards: [
-      { suit: "hearts", rank: "A", value: 11 },
-      { suit: "spades", rank: "K", value: 10 },
+      { suit: "hearts", rank: "A" },
+      { suit: "spades", rank: "K" },
     ],
     value: 21,
     isBlackjack: true,
@@ -16,9 +16,9 @@ describe("useHandProps", () => {
 
   const mockBustHand: Hand = {
     cards: [
-      { suit: "hearts", rank: "10", value: 10 },
-      { suit: "spades", rank: "9", value: 9 },
-      { suit: "clubs", rank: "7", value: 7 },
+      { suit: "hearts", rank: "10" },
+      { suit: "spades", rank: "9" },
+      { suit: "clubs", rank: "7" },
     ],
     value: 26,
     isBlackjack: false,
@@ -27,9 +27,9 @@ describe("useHandProps", () => {
 
   const mockTwentyOneHand: Hand = {
     cards: [
-      { suit: "hearts", rank: "10", value: 10 },
-      { suit: "spades", rank: "5", value: 5 },
-      { suit: "clubs", rank: "6", value: 6 },
+      { suit: "hearts", rank: "10" },
+      { suit: "spades", rank: "5" },
+      { suit: "clubs", rank: "6" },
     ],
     value: 21,
     isBlackjack: false,
@@ -38,8 +38,8 @@ describe("useHandProps", () => {
 
   const mockNormalHand: Hand = {
     cards: [
-      { suit: "hearts", rank: "8", value: 8 },
-      { suit: "spades", rank: "7", value: 7 },
+      { suit: "hearts", rank: "8" },
+      { suit: "spades", rank: "7" },
     ],
     value: 15,
     isBlackjack: false,

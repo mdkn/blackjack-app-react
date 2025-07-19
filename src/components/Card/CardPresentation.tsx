@@ -30,7 +30,6 @@ const getSuitPattern = (suit: CardType["suit"], rank: CardType["rank"]) => {
             <SuitIcon
               suit={suit}
               className={`${config.centerIcon.size} ${config.centerIcon.opacity}`}
-              filled={config.centerIcon.filled}
             />
           </div>
         );
@@ -41,11 +40,7 @@ const getSuitPattern = (suit: CardType["suit"], rank: CardType["rank"]) => {
       if (config.centerIcon) {
         return (
           <div className="absolute inset-0 flex items-center justify-center">
-            <SuitIcon
-              suit={suit}
-              className={config.centerIcon.size}
-              filled={config.centerIcon.filled}
-            />
+            <SuitIcon suit={suit} className={config.centerIcon.size} />
           </div>
         );
       }
@@ -61,11 +56,7 @@ const getSuitPattern = (suit: CardType["suit"], rank: CardType["rank"]) => {
               className={`absolute ${config.iconSize} flex items-center justify-center ${pos.rotate ? "rotate-180" : ""}`}
               style={{ left: pos.x, top: pos.y }}
             >
-              <SuitIcon
-                suit={suit}
-                className={config.iconSize}
-                filled={config.filled}
-              />
+              <SuitIcon suit={suit} className={config.iconSize} />
             </div>
           );
         });

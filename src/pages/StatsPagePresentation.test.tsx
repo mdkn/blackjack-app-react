@@ -1,4 +1,3 @@
-import React from "react";
 import { render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { StatsPagePresentation } from "./StatsPagePresentation";
@@ -21,13 +20,12 @@ vi.mock("../components", () => ({
 describe("StatsPagePresentation", () => {
   const mockGameHistory: GameResult[] = [
     {
-      id: "1",
       timestamp: new Date("2023-01-01T10:00:00Z"),
       result: "player-wins",
       playerHand: {
         cards: [
-          { suit: "hearts", rank: "10", value: 10 },
-          { suit: "spades", rank: "9", value: 9 },
+          { suit: "hearts", rank: "10" },
+          { suit: "spades", rank: "9" },
         ],
         value: 19,
         isBlackjack: false,
@@ -35,24 +33,22 @@ describe("StatsPagePresentation", () => {
       },
       dealerHand: {
         cards: [
-          { suit: "clubs", rank: "10", value: 10 },
-          { suit: "diamonds", rank: "8", value: 8 },
+          { suit: "clubs", rank: "10" },
+          { suit: "diamonds", rank: "8" },
         ],
         value: 18,
         isBlackjack: false,
         isBust: false,
       },
-      betAmount: 50,
-      payout: 50,
+      winnings: 50,
     },
     {
-      id: "2",
       timestamp: new Date("2023-01-01T11:00:00Z"),
       result: "dealer-wins",
       playerHand: {
         cards: [
-          { suit: "hearts", rank: "10", value: 10 },
-          { suit: "spades", rank: "6", value: 6 },
+          { suit: "hearts", rank: "10" },
+          { suit: "spades", rank: "6" },
         ],
         value: 16,
         isBlackjack: false,
@@ -60,15 +56,14 @@ describe("StatsPagePresentation", () => {
       },
       dealerHand: {
         cards: [
-          { suit: "clubs", rank: "10", value: 10 },
-          { suit: "diamonds", rank: "9", value: 9 },
+          { suit: "clubs", rank: "10" },
+          { suit: "diamonds", rank: "9" },
         ],
         value: 19,
         isBlackjack: false,
         isBust: false,
       },
-      betAmount: 25,
-      payout: 0,
+      winnings: 0,
     },
   ];
 
@@ -120,9 +115,9 @@ describe("StatsPagePresentation", () => {
 
   it("should handle different animation props", () => {
     const customAnimationProps = {
-      initial: { opacity: 0, scale: 0.8 },
-      animate: { opacity: 1, scale: 1 },
-      transition: { duration: 0.8, ease: "easeOut" },
+      initial: { opacity: 0, y: 10 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.8 },
     };
 
     const { container } = render(
@@ -153,9 +148,8 @@ describe("StatsPagePresentation", () => {
   it("should render with large game history", () => {
     const largeGameHistory = Array(100)
       .fill(mockGameHistory[0])
-      .map((game, index) => ({
+      .map((game, _) => ({
         ...game,
-        id: `game-${index}`,
       }));
 
     const { getByTestId } = render(
@@ -191,8 +185,8 @@ describe("StatsPagePresentation", () => {
 
   it("should handle animation props with different structure", () => {
     const minimalAnimationProps = {
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
+      initial: { opacity: 0, y: 5 },
+      animate: { opacity: 1, y: 0 },
       transition: { duration: 0.3 },
     };
 
