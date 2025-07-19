@@ -190,7 +190,7 @@ export const CardPresentation = ({
 
         {/* Center suit pattern */}
         <div
-          className={`absolute inset-0 ${isRed ? "text-red-600" : "text-gray-900"}`}
+          className={`absolute inset-x-0 inset-y-2 ${isRed ? "text-red-600" : "text-gray-900"}`}
         >
           {getSuitPattern(card.suit, card.rank)}
         </div>
