@@ -1,3 +1,12 @@
-npx tsc --noEmit
-npx lint-staged
-npm run test -- --run
+# Stage 1: Fast checks (parallel)
+npx lint-staged &
+npm run format:check &
+wait
+
+# Stage 2: Type checking and tests (parallel)
+npx tsc --noEmit &
+npm run test -- --run &
+wait
+
+# Stage 3: Build verification (final check)
+npm run build
