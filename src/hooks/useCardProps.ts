@@ -13,26 +13,12 @@ interface UseCardPropsReturn {
   isRed: boolean;
   cardType: "face-down" | "empty" | "face-up";
   isFaceCard: boolean;
-  textSize: string;
-  iconSize: string;
 }
 
 const SIZE_CLASSES = {
-  small: "w-14 h-20",
-  medium: "w-16 h-24",
-  large: "w-20 h-32",
-};
-
-const TEXT_SIZES = {
-  small: "text-xs",
-  medium: "text-sm",
-  large: "text-base",
-};
-
-const ICON_SIZES = {
-  small: "w-2 h-2",
-  medium: "w-3 h-3",
-  large: "w-4 h-4",
+  small: "w-14 h-20 text-xs",
+  medium: "w-16 h-24 text-sm",
+  large: "w-20 h-32 text-base",
 };
 
 export const useCardProps = ({
@@ -41,30 +27,6 @@ export const useCardProps = ({
   size = "medium",
 }: UseCardPropsParams): UseCardPropsReturn => {
   const sizeClasses = useMemo(() => SIZE_CLASSES[size], [size]);
-
-  const textSize = useMemo(() => {
-    if (card?.rank === "10") {
-      // Special handling for "10" - use smaller text
-      return size === "small"
-        ? "text-xs"
-        : size === "medium"
-          ? "text-xs"
-          : "text-sm";
-    }
-    return TEXT_SIZES[size];
-  }, [size, card?.rank]);
-
-  const iconSize = useMemo(() => {
-    if (card?.rank === "10") {
-      // Special handling for "10" - use smaller icons
-      return size === "small"
-        ? "w-1.5 h-1.5"
-        : size === "medium"
-          ? "w-2 h-2"
-          : "w-3 h-3";
-    }
-    return ICON_SIZES[size];
-  }, [size, card?.rank]);
 
   const isRed = useMemo(() => {
     return card ? isRedCard(card.suit) : false;
@@ -87,7 +49,5 @@ export const useCardProps = ({
     isRed,
     cardType,
     isFaceCard,
-    textSize,
-    iconSize,
   };
 };
