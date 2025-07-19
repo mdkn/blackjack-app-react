@@ -1,11 +1,32 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Coins } from "lucide-react";
+import { Coins, History, BarChart3, Home } from "lucide-react";
 import { useGameStore } from "./stores";
-import { Hand, Betting, GameControls } from "./components";
+import {
+  Hand,
+  Betting,
+  GameControls,
+  GameHistory,
+  GameStats,
+} from "./components";
+
+type AppView = "game" | "history" | "stats";
 
 function App() {
-  const { player, dealer, phase, placeBet, hit, stand, resetRound, newGame } =
-    useGameStore();
+  const {
+    player,
+    dealer,
+    phase,
+    gameHistory,
+    placeBet,
+    hit,
+    stand,
+    resetRound,
+    newGame,
+  } = useGameStore();
+
+  const [currentView, setCurrentView] = useState<AppView>("game");
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const playerCanHit =
     phase === "player-turn" && !player.hand.isBust && player.hand.value < 21;
@@ -13,80 +34,136 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-800 to-green-900 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Header with Navigation */}
         <motion.div
-          className="text-center mb-8"
+          className="mb-8"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl font-bold text-white mb-2">Blackjack</h1>
-          <div className="flex items-center justify-center gap-2 text-yellow-400">
-            <Coins className="w-6 h-6" />
-            <span className="text-xl font-semibold">${player.chips}</span>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-4xl font-bold text-white">Blackjack</h1>
+
+            {/* Navigation */}
+            <nav className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentView("game")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentView === "game"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                }`}
+              >
+                <Home className="w-4 h-4" />
+                Game
+              </button>
+              <button
+                onClick={() => setIsHistoryOpen(true)}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+              >
+                <History className="w-4 h-4" />
+                History
+                {gameHistory.length > 0 && (
+                  <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                    {gameHistory.length}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={() => setCurrentView("stats")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentView === "stats"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                }`}
+              >
+                <BarChart3 className="w-4 h-4" />
+                Stats
+              </button>
+            </nav>
+          </div>
+
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-2 text-yellow-400">
+              <Coins className="w-6 h-6" />
+              <span className="text-xl font-semibold">${player.chips}</span>
+            </div>
           </div>
         </motion.div>
 
-        {/* Game Table */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Dealer Section */}
-          <motion.div
-            className="lg:col-span-3 bg-gray-800 rounded-lg p-6 border border-gray-700"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <Hand
-              hand={dealer.hand}
-              label="Dealer"
-              hideLastCard={phase === "player-turn" || phase === "dealing"}
-              cardSize="large"
-              className="mb-4"
-            />
-          </motion.div>
-
-          {/* Player Section */}
-          <motion.div
-            className="lg:col-span-2 bg-gray-800 rounded-lg p-6 border border-gray-700"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Hand
-              hand={player.hand}
-              label="Your Hand"
-              cardSize="large"
-              className="mb-4"
-            />
-          </motion.div>
-
-          {/* Controls Section */}
-          <motion.div
-            className="space-y-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            {/* Betting Component */}
-            {phase === "betting" && (
-              <Betting
-                playerChips={player.chips}
-                currentBet={player.currentBet}
-                onPlaceBet={placeBet}
+        {/* Content based on current view */}
+        {currentView === "game" && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Dealer Section */}
+            <motion.div
+              className="lg:col-span-3 bg-gray-800 rounded-lg p-6 border border-gray-700"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Hand
+                hand={dealer.hand}
+                label="Dealer"
+                hideLastCard={phase === "player-turn" || phase === "dealing"}
+                cardSize="large"
+                className="mb-4"
               />
-            )}
+            </motion.div>
 
-            {/* Game Controls */}
-            <GameControls
-              phase={phase}
-              onHit={hit}
-              onStand={stand}
-              onNewRound={resetRound}
-              onNewGame={newGame}
-              playerCanHit={playerCanHit}
-            />
+            {/* Player Section */}
+            <motion.div
+              className="lg:col-span-2 bg-gray-800 rounded-lg p-6 border border-gray-700"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Hand
+                hand={player.hand}
+                label="Your Hand"
+                cardSize="large"
+                className="mb-4"
+              />
+            </motion.div>
+
+            {/* Controls Section */}
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              {/* Betting Component */}
+              {phase === "betting" && (
+                <Betting
+                  playerChips={player.chips}
+                  currentBet={player.currentBet}
+                  onPlaceBet={placeBet}
+                />
+              )}
+
+              {/* Game Controls */}
+              <GameControls
+                phase={phase}
+                onHit={hit}
+                onStand={stand}
+                onNewRound={resetRound}
+                onNewGame={newGame}
+                playerCanHit={playerCanHit}
+              />
+            </motion.div>
+          </div>
+        )}
+
+        {/* Statistics View */}
+        {currentView === "stats" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <GameStats history={gameHistory} />
           </motion.div>
-        </div>
+        )}
 
         {/* Current Bet Display */}
         {player.currentBet > 0 && (
@@ -102,6 +179,13 @@ function App() {
             </div>
           </motion.div>
         )}
+
+        {/* Game History Modal */}
+        <GameHistory
+          history={gameHistory}
+          isOpen={isHistoryOpen}
+          onClose={() => setIsHistoryOpen(false)}
+        />
 
         {/* Footer */}
         <motion.footer
