@@ -11,7 +11,7 @@ import { useAppProps } from "./hooks";
 import { GameHistory, Settings } from "./components";
 import { GamePage, StatsPage } from "./pages";
 
-function App() {
+const App = () => {
   const { player } = useGameStore();
   const {
     currentView,
@@ -109,6 +109,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

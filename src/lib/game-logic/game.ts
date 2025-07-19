@@ -1,9 +1,9 @@
 import { Hand, Player, GameResult } from "../../types";
 
-export function determineWinner(
+export const determineWinner = (
   playerHand: Hand,
   dealerHand: Hand
-): { result: "player-wins" | "dealer-wins" | "push"; message: string } {
+): { result: "player-wins" | "dealer-wins" | "push"; message: string } => {
   // Player busted
   if (playerHand.isBust) {
     return { result: "dealer-wins", message: "Player busted" };
@@ -37,13 +37,13 @@ export function determineWinner(
   } else {
     return { result: "push", message: "Push" };
   }
-}
+};
 
-export function calculateWinnings(
+export const calculateWinnings = (
   bet: number,
   result: "player-wins" | "dealer-wins" | "push",
   isBlackjack: boolean = false
-): number {
+): number => {
   switch (result) {
     case "player-wins":
       return isBlackjack ? Math.floor(bet * 1.5) : bet; // Blackjack pays 3:2
@@ -54,13 +54,13 @@ export function calculateWinnings(
     default:
       return 0;
   }
-}
+};
 
-export function createGameResult(
+export const createGameResult = (
   playerHand: Hand,
   dealerHand: Hand,
   bet: number
-): GameResult {
+): GameResult => {
   const { result } = determineWinner(playerHand, dealerHand);
   const winnings = calculateWinnings(bet, result, playerHand.isBlackjack);
 
@@ -71,15 +71,18 @@ export function createGameResult(
     winnings,
     timestamp: new Date(),
   };
-}
+};
 
-export function canPlayerAffordBet(player: Player, betAmount: number): boolean {
+export const canPlayerAffordBet = (
+  player: Player,
+  betAmount: number
+): boolean => {
   return player.chips >= betAmount;
-}
+};
 
-export function updatePlayerChips(player: Player, amount: number): Player {
+export const updatePlayerChips = (player: Player, amount: number): Player => {
   return {
     ...player,
     chips: Math.max(0, player.chips + amount),
   };
-}
+};

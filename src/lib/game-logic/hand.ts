@@ -1,15 +1,15 @@
 import { Hand, Card, RANK_VALUES } from "../../types";
 
-export function createEmptyHand(): Hand {
+export const createEmptyHand = (): Hand => {
   return {
     cards: [],
     value: 0,
     isBlackjack: false,
     isBust: false,
   };
-}
+};
 
-export function addCardToHand(hand: Hand, card: Card): Hand {
+export const addCardToHand = (hand: Hand, card: Card): Hand => {
   const newCards = [...hand.cards, card];
   const value = calculateHandValue(newCards);
   const isBlackjack = newCards.length === 2 && value === 21;
@@ -21,9 +21,9 @@ export function addCardToHand(hand: Hand, card: Card): Hand {
     isBlackjack,
     isBust,
   };
-}
+};
 
-export function calculateHandValue(cards: Card[]): number {
+export const calculateHandValue = (cards: Card[]): number => {
   let total = 0;
   let aces = 0;
 
@@ -46,13 +46,13 @@ export function calculateHandValue(cards: Card[]): number {
   }
 
   return total;
-}
+};
 
-export function canHit(hand: Hand): boolean {
+export const canHit = (hand: Hand): boolean => {
   return !hand.isBust && hand.value < 21;
-}
+};
 
-export function shouldDealerHit(hand: Hand): boolean {
+export const shouldDealerHit = (hand: Hand): boolean => {
   if (hand.value < 17) {
     return true;
   }
@@ -63,9 +63,9 @@ export function shouldDealerHit(hand: Hand): boolean {
   }
 
   return false;
-}
+};
 
-export function isSoftHand(hand: Hand): boolean {
+export const isSoftHand = (hand: Hand): boolean => {
   let hasAce = false;
   let total = 0;
 
@@ -80,12 +80,12 @@ export function isSoftHand(hand: Hand): boolean {
 
   // If we have an ace and can use it as 11 without busting, it's a soft hand
   return hasAce && total + 10 === hand.value;
-}
+};
 
-export function getHandDisplayValue(hand: Hand): string {
+export const getHandDisplayValue = (hand: Hand): string => {
   if (isSoftHand(hand)) {
     const hardValue = hand.value - 10;
     return `${hardValue}/${hand.value}`;
   }
   return hand.value.toString();
-}
+};

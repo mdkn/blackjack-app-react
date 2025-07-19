@@ -1,6 +1,6 @@
 import { Card, Deck, SUITS, RANKS } from "../../types";
 
-export function createDeck(): Deck {
+export const createDeck = (): Deck => {
   const cards: Card[] = [];
 
   for (const suit of SUITS) {
@@ -13,9 +13,9 @@ export function createDeck(): Deck {
     cards: shuffleDeck(cards),
     remaining: cards.length,
   };
-}
+};
 
-export function shuffleDeck(cards: Card[]): Card[] {
+export const shuffleDeck = (cards: Card[]): Card[] => {
   const shuffled = [...cards];
 
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -24,9 +24,11 @@ export function shuffleDeck(cards: Card[]): Card[] {
   }
 
   return shuffled;
-}
+};
 
-export function dealCard(deck: Deck): { card: Card; updatedDeck: Deck } | null {
+export const dealCard = (
+  deck: Deck
+): { card: Card; updatedDeck: Deck } | null => {
   if (deck.remaining === 0) {
     return null;
   }
@@ -38,8 +40,8 @@ export function dealCard(deck: Deck): { card: Card; updatedDeck: Deck } | null {
   };
 
   return { card, updatedDeck };
-}
+};
 
-export function shouldReshuffle(deck: Deck): boolean {
+export const shouldReshuffle = (deck: Deck): boolean => {
   return deck.remaining < 10; // Reshuffle when less than 10 cards remain
-}
+};
