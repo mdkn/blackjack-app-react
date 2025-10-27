@@ -77,7 +77,7 @@ jobs:
           echo "Bundle size: $(cat bundle-size.txt)"
 
       - name: Upload bundle size info
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bundle-size
           path: bundle-size.txt
