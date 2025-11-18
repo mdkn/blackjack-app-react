@@ -42,8 +42,8 @@
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.10",
+    "@vitest/ui": "^4.0.10",
     "autoprefixer": "^10.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.0.0",
@@ -61,7 +61,7 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5.2.2",
     "vite": "^7.0.8",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.10"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -71,5 +71,8 @@
     "*.{json,css,md}": [
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "glob": "^11.0.4"
   }
 }
