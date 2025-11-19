@@ -23,15 +23,15 @@
   },
   "dependencies": {
     "framer-motion": "^10.16.0",
-    "lucide-react": "^0.525.0",
+    "lucide-react": "^0.548.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "^9.0.17",
-    "@storybook/addon-onboarding": "^9.0.17",
-    "@storybook/react-vite": "^9.0.17",
+    "@storybook/addon-docs": "^10.0.8",
+    "@storybook/addon-onboarding": "^10.0.8",
+    "@storybook/react-vite": "^10.0.8",
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/cli": "^2.2.0",
     "@tauri-apps/plugin-shell": "^2.0.0",
@@ -42,8 +42,8 @@
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.10",
+    "@vitest/ui": "^4.0.10",
     "autoprefixer": "^10.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.0.0",
@@ -51,17 +51,17 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
-    "eslint-plugin-storybook": "^9.0.17",
+    "eslint-plugin-storybook": "^10.0.8",
     "husky": "^9.0.0",
     "jsdom": "^26.1.0",
     "lint-staged": "^16.1.2",
     "postcss": "^8.4.0",
     "prettier": "^3.0.0",
-    "storybook": "^9.0.17",
-    "tailwindcss": "^3.3.0",
+    "storybook": "^10.0.8",
+    "tailwindcss": "^3.4.18",
     "typescript": "^5.2.2",
-    "vite": "^7.0.5",
-    "vitest": "^3.2.4"
+    "vite": "^7.0.8",
+    "vitest": "^4.0.10"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -71,5 +71,8 @@
     "*.{json,css,md}": [
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "glob": "^11.0.4"
   }
 }
