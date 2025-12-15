@@ -80,7 +80,7 @@ jobs:
           echo "Bundle size: $(cat bundle-size.txt)"
 
       - name: Upload bundle size info
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: bundle-size
           path: bundle-size.txt
